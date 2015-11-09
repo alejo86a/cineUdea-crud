@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PrecioCreateDlg" widgetVar="PrecioCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreatePrecioTitle}" closeOnEscape="true">
+
+            <h:form id="PrecioCreateForm">
+
+                <h:panelGroup id="display" rendered="#{precioController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{myBundle.CreatePrecioLabel_precioDinero}" for="precioDinero" />
+                        <p:inputText id="precioDinero" value="#{precioController.selected.precioDinero}" title="#{myBundle.CreatePrecioTitle_precioDinero}"/>
+
+                        <p:outputLabel value="#{myBundle.CreatePrecioLabel_precioPuntos}" for="precioPuntos" />
+                        <p:inputText id="precioPuntos" value="#{precioController.selected.precioPuntos}" title="#{myBundle.CreatePrecioTitle_precioPuntos}"/>
+
+                        <p:outputLabel value="#{myBundle.CreatePrecioLabel_FORMATOidFORMATO}" for="FORMATOidFORMATO" />
+                        <p:selectOneMenu id="FORMATOidFORMATO" value="#{precioController.selected.FORMATOidFORMATO}" required="true" requiredMessage="#{myBundle.CreatePrecioRequiredMessage_FORMATOidFORMATO}" converter="formatoConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{formatoController.items}"
+                                           var="FORMATOidFORMATOItem"
+                                           itemValue="#{FORMATOidFORMATOItem}"
+                                           itemLabel="#{FORMATOidFORMATOItem.idFORMATO.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.CreatePrecioLabel_localidadIdlocalidad}" for="localidadIdlocalidad" />
+                        <p:selectOneMenu id="localidadIdlocalidad" value="#{precioController.selected.localidadIdlocalidad}" required="true" requiredMessage="#{myBundle.CreatePrecioRequiredMessage_localidadIdlocalidad}" converter="localidadConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{localidadController.items}"
+                                           var="localidadIdlocalidadItem"
+                                           itemValue="#{localidadIdlocalidadItem}"
+                                           itemLabel="#{localidadIdlocalidadItem.idlocalidad.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{precioController.saveNew}" value="#{myBundle.Save}" update="display,:PrecioListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('PrecioCreateDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="PF('PrecioCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

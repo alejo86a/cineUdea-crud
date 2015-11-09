@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="UsuarioViewDlg" widgetVar="UsuarioViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewUsuarioTitle}" closeOnEscape="true">
+
+            <h:form id="UsuarioViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{usuarioController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewUsuarioLabel_document}"/>
+                        <h:outputText value="#{usuarioController.selected.document}" title="#{myBundle.ViewUsuarioTitle_document}"/>
+
+                        <h:outputText value="#{myBundle.ViewUsuarioLabel_tipoDoc}"/>
+                        <h:outputText value="#{usuarioController.selected.tipoDoc}" title="#{myBundle.ViewUsuarioTitle_tipoDoc}"/>
+
+                        <h:outputText value="#{myBundle.ViewUsuarioLabel_nombres}"/>
+                        <h:outputText value="#{usuarioController.selected.nombres}" title="#{myBundle.ViewUsuarioTitle_nombres}"/>
+
+                        <h:outputText value="#{myBundle.ViewUsuarioLabel_apellidos}"/>
+                        <h:outputText value="#{usuarioController.selected.apellidos}" title="#{myBundle.ViewUsuarioTitle_apellidos}"/>
+
+                        <h:outputText value="#{myBundle.ViewUsuarioLabel_correo}"/>
+                        <h:outputText value="#{usuarioController.selected.correo}" title="#{myBundle.ViewUsuarioTitle_correo}"/>
+
+                        <h:outputText value="#{myBundle.ViewUsuarioLabel_contraseña}"/>
+                        <h:outputText value="#{usuarioController.selected.contraseña}" title="#{myBundle.ViewUsuarioTitle_contraseña}"/>
+
+                        <h:outputText value="#{myBundle.ViewUsuarioLabel_telefono}"/>
+                        <h:outputText value="#{usuarioController.selected.telefono}" title="#{myBundle.ViewUsuarioTitle_telefono}"/>
+
+                        <h:outputText value="#{myBundle.ViewUsuarioLabel_sexo}"/>
+                        <h:outputText value="#{usuarioController.selected.sexo}" title="#{myBundle.ViewUsuarioTitle_sexo}"/>
+
+                        <h:outputText value="#{myBundle.ViewUsuarioLabel_barrio}"/>
+                        <h:outputText value="#{usuarioController.selected.barrio}" title="#{myBundle.ViewUsuarioTitle_barrio}"/>
+
+                        <h:outputText value="#{myBundle.ViewUsuarioLabel_direccion}"/>
+                        <h:outputText value="#{usuarioController.selected.direccion}" title="#{myBundle.ViewUsuarioTitle_direccion}"/>
+
+                        <h:outputText value="#{myBundle.ViewUsuarioLabel_fechaNacimiento}"/>
+                        <h:outputText value="#{usuarioController.selected.fechaNacimiento}" title="#{myBundle.ViewUsuarioTitle_fechaNacimiento}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewUsuarioLabel_celular}"/>
+                        <h:outputText value="#{usuarioController.selected.celular}" title="#{myBundle.ViewUsuarioTitle_celular}"/>
+
+                        <h:outputText value="#{myBundle.ViewUsuarioLabel_tipo}"/>
+                        <h:outputText value="#{usuarioController.selected.tipo}" title="#{myBundle.ViewUsuarioTitle_tipo}"/>
+
+                        <h:outputText value="#{myBundle.ViewUsuarioLabel_generoidGenero}"/>
+                        <h:outputText value="#{usuarioController.selected.generoidGenero.idGenero}"/>
+
+                        <h:outputText value="#{myBundle.ViewUsuarioLabel_MUNICIPIOidMUNICIPIO}"/>
+                        <h:outputText value="#{usuarioController.selected.MUNICIPIOidMUNICIPIO.idMUNICIPIO}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('UsuarioViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

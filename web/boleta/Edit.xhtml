@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="BoletaEditDlg" widgetVar="BoletaEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditBoletaTitle}" closeOnEscape="true">
+
+            <h:form id="BoletaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{boletaController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditBoletaLabel_idBOLETA}" for="idBOLETA" />
+                        <h:outputText id="idBOLETA" value="#{boletaController.selected.idBOLETA}" />
+
+                        <p:outputLabel value="#{myBundle.EditBoletaLabel_qr}" for="qr" />
+                        <p:inputText id="qr" value="#{boletaController.selected.qr}" title="#{myBundle.EditBoletaTitle_qr}" size="25" maxlength="25"/>
+
+                        <p:outputLabel value="#{myBundle.EditBoletaLabel_reservada}" for="reservada" />
+                        <p:selectBooleanCheckbox id="reservada" value="#{boletaController.selected.reservada}" />
+
+                        <p:outputLabel value="#{myBundle.EditBoletaLabel_funcion}" for="funcion" />
+                        <p:selectOneMenu id="funcion" value="#{boletaController.selected.funcion}" required="true" requiredMessage="#{myBundle.EditBoletaRequiredMessage_funcion}" converter="funcionConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{funcionController.items}"
+                                           var="funcionItem"
+                                           itemValue="#{funcionItem}"
+                                           itemLabel="#{funcionItem.idFUNCION.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.EditBoletaLabel_precioidPrecio}" for="precioidPrecio" />
+                        <p:selectOneMenu id="precioidPrecio" value="#{boletaController.selected.precioidPrecio}" required="true" requiredMessage="#{myBundle.EditBoletaRequiredMessage_precioidPrecio}" converter="precioConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{precioController.items}"
+                                           var="precioidPrecioItem"
+                                           itemValue="#{precioidPrecioItem}"
+                                           itemLabel="#{precioidPrecioItem.idPrecio.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.EditBoletaLabel_reserva}" for="reserva" />
+                        <p:selectOneMenu id="reserva" value="#{boletaController.selected.reserva}" required="true" requiredMessage="#{myBundle.EditBoletaRequiredMessage_reserva}" converter="reservaConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{reservaController.items}"
+                                           var="reservaItem"
+                                           itemValue="#{reservaItem}"
+                                           itemLabel="#{reservaItem.idReserva.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.EditBoletaLabel_SILLANumero}" for="SILLANumero" />
+                        <p:selectOneMenu id="SILLANumero" value="#{boletaController.selected.SILLANumero}" required="true" requiredMessage="#{myBundle.EditBoletaRequiredMessage_SILLANumero}" converter="sillaConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{sillaController.items}"
+                                           var="SILLANumeroItem"
+                                           itemValue="#{SILLANumeroItem}"
+                                           itemLabel="#{SILLANumeroItem.sillaPK.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{boletaController.save}" value="#{myBundle.Save}" update="display,:BoletaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('BoletaEditDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="PF('BoletaEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

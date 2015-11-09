@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="PeliculaListForm">
+
+        <p:panel header="#{myBundle.ListPeliculaTitle}">
+            <p:contextMenu id="PeliculaDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{myBundle.Create}" onclick="document.getElementById('PeliculaListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{myBundle.View}" onclick="document.getElementById('PeliculaListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{myBundle.Edit}" onclick="document.getElementById('PeliculaListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{myBundle.Delete}" onclick="document.getElementById('PeliculaListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{myBundle.PeliculaMenuItem_cartelerapeliculaList}" icon="ui-icon-search"  action="#{peliculaController.navigateCartelerapeliculaList}" disabled="#{empty peliculaController.selected.cartelerapeliculaList}" ajax="false"/>  
+                <p:menuitem value="#{myBundle.PeliculaMenuItem_censura}" icon="ui-icon-search"  actionListener="#{peliculaController.prepareCensura}" update=":ClasificacionViewForm" oncomplete="PF('ClasificacionViewDialog').show()" disabled="#{empty peliculaController.selected.censura}"/>  
+                <p:menuitem value="#{myBundle.PeliculaMenuItem_formato}" icon="ui-icon-search"  actionListener="#{peliculaController.prepareFormato}" update=":FormatoViewForm" oncomplete="PF('FormatoViewDialog').show()" disabled="#{empty peliculaController.selected.formato}"/>  
+                <p:menuitem value="#{myBundle.PeliculaMenuItem_generoidGenero}" icon="ui-icon-search"  actionListener="#{peliculaController.prepareGeneroidGenero}" update=":GeneroViewForm" oncomplete="PF('GeneroViewDialog').show()" disabled="#{empty peliculaController.selected.generoidGenero}"/>  
+                <p:menuitem value="#{myBundle.PeliculaMenuItem_lenguaje}" icon="ui-icon-search"  actionListener="#{peliculaController.prepareLenguaje}" update=":LenguajeViewForm" oncomplete="PF('LenguajeViewDialog').show()" disabled="#{empty peliculaController.selected.lenguaje}"/>  
+                <p:menuitem value="#{myBundle.PeliculaMenuItem_funcionList}" icon="ui-icon-search"  action="#{peliculaController.navigateFuncionList}" disabled="#{empty peliculaController.selected.funcionList}" ajax="false"/>  
+                <p:menuitem value="#{myBundle.PeliculaMenuItem_comentariosList}" icon="ui-icon-search"  action="#{peliculaController.navigateComentariosList}" disabled="#{empty peliculaController.selected.comentariosList}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{peliculaController.items}"
+                         var="item"
+                         rowKey="#{item.idPELICULA}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{peliculaController.selected}">
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:PeliculaDataTableContextMenu" listener="#{peliculaController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:PeliculaDataTableContextMenu" listener="#{peliculaController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{peliculaController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('PeliculaListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idPELICULA}" filterBy="#{item.idPELICULA}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListPeliculaTitle_idPELICULA}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idPELICULA}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.nombre}" filterBy="#{item.nombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListPeliculaTitle_nombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nombre}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.trailer}" filterBy="#{item.trailer}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListPeliculaTitle_trailer}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.trailer}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.imagen}" filterBy="#{item.imagen}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListPeliculaTitle_imagen}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.imagen}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.pais}" filterBy="#{item.pais}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListPeliculaTitle_pais}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.pais}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.director}" filterBy="#{item.director}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListPeliculaTitle_director}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.director}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.reparto}" filterBy="#{item.reparto}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListPeliculaTitle_reparto}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.reparto}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.censura.idClasificacion}" filterBy="#{item.censura.idClasificacion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListPeliculaTitle_censura}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.censura.idClasificacion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.formato.idFORMATO}" filterBy="#{item.formato.idFORMATO}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListPeliculaTitle_formato}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.formato.idFORMATO}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.generoidGenero.idGenero}" filterBy="#{item.generoidGenero.idGenero}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListPeliculaTitle_generoidGenero}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.generoidGenero.idGenero}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.lenguaje.idLENGUAJE}" filterBy="#{item.lenguaje.idLENGUAJE}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListPeliculaTitle_lenguaje}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.lenguaje.idLENGUAJE}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{peliculaController.prepareCreate}" update=":PeliculaCreateForm" oncomplete="PF('PeliculaCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{myBundle.View}" update=":PeliculaViewForm" oncomplete="PF('PeliculaViewDialog').show()" disabled="#{empty peliculaController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":PeliculaEditForm" oncomplete="PF('PeliculaEditDialog').show()" disabled="#{empty peliculaController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{peliculaController.delete}" update=":growl,datalist" disabled="#{empty peliculaController.selected}">
+                <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

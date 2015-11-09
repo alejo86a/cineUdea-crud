@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pm="http://primefaces.org/mobile">
+
+    <pm:page id="FuncionEditPage" lazy="true">
+        <pm:header title="#{myBundle.EditFuncionTitle}">
+            <h:form>
+                <p:commandButton styleClass="ui-btn-left ui-btn-inline" value="#{myBundle.Cancel}" icon="ui-icon-arrow-l" action="#{mobilePageController.navigateBackInHistory('pm:FuncionListPage')}"/>
+            </h:form>
+        </pm:header>
+
+        <pm:content>
+
+            <h:form id="FuncionEditForm">
+
+                <h:panelGroup id="display">
+                    <p:outputPanel rendered="#{funcionController.selected != null}">
+
+                        <pm:field>
+                            <h:outputLabel value="#{myBundle.EditFuncionLabel_idFUNCION}" for="idFUNCION" />
+                            <h:outputText id="idFUNCION" value="#{funcionController.selected.idFUNCION}" />
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditFuncionLabel_fecha}" for="fecha" />
+                            <p:calendar id="fecha" pattern="MM/dd/yyyy" value="#{funcionController.selected.fecha}" title="#{myBundle.EditFuncionTitle_fecha}"  showOn="button"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditFuncionLabel_PELICULAidPELICULA}" for="PELICULAidPELICULA" />
+                            <p:selectOneMenu id="PELICULAidPELICULA" value="#{funcionController.selected.PELICULAidPELICULA}" required="true" requiredMessage="#{myBundle.EditFuncionRequiredMessage_PELICULAidPELICULA}" converter="peliculaConverter">
+                                <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{peliculaController.items}"
+                                               var="PELICULAidPELICULAItem"
+                                               itemValue="#{PELICULAidPELICULAItem}"
+                                               itemLabel="#{PELICULAidPELICULAItem.idPELICULA.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditFuncionLabel_PROGRAMACIONidProgramacion}" for="PROGRAMACIONidProgramacion" />
+                            <p:selectOneMenu id="PROGRAMACIONidProgramacion" value="#{funcionController.selected.PROGRAMACIONidProgramacion}"  converter="programacionConverter">
+                                <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{programacionController.items}"
+                                               var="PROGRAMACIONidProgramacionItem"
+                                               itemValue="#{PROGRAMACIONidProgramacionItem}"
+                                               itemLabel="#{PROGRAMACIONidProgramacionItem.idProgramacion.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                        </pm:field>
+                    </p:outputPanel>
+                    <p:commandButton actionListener="#{funcionController.save}" value="#{myBundle.Save}" update="#{mobilePageController.updatableWidgets(component,'display,:FuncionListPage:FuncionListForm:datalist,:growl')}" action="#{mobilePageController.navigateWithHistory('pm:FuncionListPage')}"/>
+
+                </h:panelGroup>
+
+            </h:form>
+
+        </pm:content>
+
+    </pm:page>
+
+</ui:composition>

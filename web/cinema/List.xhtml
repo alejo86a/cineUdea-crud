@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="CinemaListForm">
+
+        <p:panel header="#{myBundle.ListCinemaTitle}">
+            <p:contextMenu id="CinemaDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{myBundle.Create}" onclick="document.getElementById('CinemaListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{myBundle.View}" onclick="document.getElementById('CinemaListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{myBundle.Edit}" onclick="document.getElementById('CinemaListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{myBundle.Delete}" onclick="document.getElementById('CinemaListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{myBundle.CinemaMenuItem_salaList}" icon="ui-icon-search"  action="#{cinemaController.navigateSalaList}" disabled="#{empty cinemaController.selected.salaList}" ajax="false"/>  
+                <p:menuitem value="#{myBundle.CinemaMenuItem_cartelera}" icon="ui-icon-search"  actionListener="#{cinemaController.prepareCartelera}" update=":CarteleraViewForm" oncomplete="PF('CarteleraViewDialog').show()" disabled="#{empty cinemaController.selected.cartelera}"/>  
+                <p:menuitem value="#{myBundle.CinemaMenuItem_cineNit}" icon="ui-icon-search"  actionListener="#{cinemaController.prepareCineNit}" update=":CineViewForm" oncomplete="PF('CineViewDialog').show()" disabled="#{empty cinemaController.selected.cineNit}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{cinemaController.items}"
+                         var="item"
+                         rowKey="#{item.idCINEMA}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{cinemaController.selected}">
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:CinemaDataTableContextMenu" listener="#{cinemaController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:CinemaDataTableContextMenu" listener="#{cinemaController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{cinemaController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('CinemaListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idCINEMA}" filterBy="#{item.idCINEMA}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListCinemaTitle_idCINEMA}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idCINEMA}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.direccion}" filterBy="#{item.direccion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListCinemaTitle_direccion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.direccion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.nombre}" filterBy="#{item.nombre}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListCinemaTitle_nombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nombre}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.ciudad}" filterBy="#{item.ciudad}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListCinemaTitle_ciudad}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.ciudad}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.pais}" filterBy="#{item.pais}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListCinemaTitle_pais}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.pais}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.telefono}" filterBy="#{item.telefono}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListCinemaTitle_telefono}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.telefono}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.cartelera.idCARTELERA}" filterBy="#{item.cartelera.idCARTELERA}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListCinemaTitle_cartelera}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cartelera.idCARTELERA}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.cineNit.nit}" filterBy="#{item.cineNit.nit}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListCinemaTitle_cineNit}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cineNit.nit}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{cinemaController.prepareCreate}" update=":CinemaCreateForm" oncomplete="PF('CinemaCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{myBundle.View}" update=":CinemaViewForm" oncomplete="PF('CinemaViewDialog').show()" disabled="#{empty cinemaController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":CinemaEditForm" oncomplete="PF('CinemaEditDialog').show()" disabled="#{empty cinemaController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{cinemaController.delete}" update=":growl,datalist" disabled="#{empty cinemaController.selected}">
+                <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

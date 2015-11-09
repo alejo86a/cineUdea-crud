@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pm="http://primefaces.org/mobile">
+
+    <pm:page id="SillaEditPage" lazy="true">
+        <pm:header title="#{myBundle.EditSillaTitle}">
+            <h:form>
+                <p:commandButton styleClass="ui-btn-left ui-btn-inline" value="#{myBundle.Cancel}" icon="ui-icon-arrow-l" action="#{mobilePageController.navigateBackInHistory('pm:SillaListPage')}"/>
+            </h:form>
+        </pm:header>
+
+        <pm:content>
+
+            <h:form id="SillaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:outputPanel rendered="#{sillaController.selected != null}">
+
+                        <pm:field>
+                            <h:outputLabel value="#{myBundle.EditSillaLabel_sillaPK_numero}" for="sillaPK_numero" />
+                            <h:outputText id="sillaPK_numero" value="#{sillaController.selected.sillaPK.numero}" />
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputLabel value="#{myBundle.EditSillaLabel_sillaPK_fila}" for="sillaPK_fila" />
+                            <h:outputText id="sillaPK_fila" value="#{sillaController.selected.sillaPK.fila}" />
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditSillaLabel_disponible}" for="disponible" />
+                            <p:selectBooleanCheckbox id="disponible" value="#{sillaController.selected.disponible}" />
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputLabel value="#{myBundle.EditSillaLabel_sala}" for="sala" />
+                            <h:outputText id="sala" value="#{sillaController.selected.sala}" />
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditSillaLabel_localidadIdlocalidad}" for="localidadIdlocalidad" />
+                            <p:selectOneMenu id="localidadIdlocalidad" value="#{sillaController.selected.localidadIdlocalidad}" required="true" requiredMessage="#{myBundle.EditSillaRequiredMessage_localidadIdlocalidad}" converter="localidadConverter">
+                                <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{localidadController.items}"
+                                               var="localidadIdlocalidadItem"
+                                               itemValue="#{localidadIdlocalidadItem}"
+                                               itemLabel="#{localidadIdlocalidadItem.idlocalidad.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                        </pm:field>
+                    </p:outputPanel>
+                    <p:commandButton actionListener="#{sillaController.save}" value="#{myBundle.Save}" update="#{mobilePageController.updatableWidgets(component,'display,:SillaListPage:SillaListForm:datalist,:growl')}" action="#{mobilePageController.navigateWithHistory('pm:SillaListPage')}"/>
+
+                </h:panelGroup>
+
+            </h:form>
+
+        </pm:content>
+
+    </pm:page>
+
+</ui:composition>

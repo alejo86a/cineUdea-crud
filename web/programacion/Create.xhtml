@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ProgramacionCreateDlg" widgetVar="ProgramacionCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreateProgramacionTitle}" closeOnEscape="true">
+
+            <h:form id="ProgramacionCreateForm">
+
+                <h:panelGroup id="display" rendered="#{programacionController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{myBundle.CreateProgramacionLabel_idProgramacion}" for="idProgramacion" />
+                        <p:inputText id="idProgramacion" value="#{programacionController.selected.idProgramacion}" title="#{myBundle.CreateProgramacionTitle_idProgramacion}" required="true" requiredMessage="#{myBundle.CreateProgramacionRequiredMessage_idProgramacion}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{myBundle.CreateProgramacionLabel_fechaInicio}" for="fechaInicio" />
+                        <p:calendar id="fechaInicio" pattern="MM/dd/yyyy" value="#{programacionController.selected.fechaInicio}" title="#{myBundle.CreateProgramacionTitle_fechaInicio}"  showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.CreateProgramacionLabel_fechaFin}" for="fechaFin" />
+                        <p:calendar id="fechaFin" pattern="MM/dd/yyyy" value="#{programacionController.selected.fechaFin}" title="#{myBundle.CreateProgramacionTitle_fechaFin}"  showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.CreateProgramacionLabel_SALAidSALA}" for="SALAidSALA" />
+                        <p:selectOneMenu id="SALAidSALA" value="#{programacionController.selected.SALAidSALA}" required="true" requiredMessage="#{myBundle.CreateProgramacionRequiredMessage_SALAidSALA}" converter="salaConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{salaController.items}"
+                                           var="SALAidSALAItem"
+                                           itemValue="#{SALAidSALAItem}"
+                                           itemLabel="#{SALAidSALAItem.idSALA.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{programacionController.saveNew}" value="#{myBundle.Save}" update="display,:ProgramacionListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ProgramacionCreateDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="PF('ProgramacionCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

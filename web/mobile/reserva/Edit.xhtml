@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pm="http://primefaces.org/mobile">
+
+    <pm:page id="ReservaEditPage" lazy="true">
+        <pm:header title="#{myBundle.EditReservaTitle}">
+            <h:form>
+                <p:commandButton styleClass="ui-btn-left ui-btn-inline" value="#{myBundle.Cancel}" icon="ui-icon-arrow-l" action="#{mobilePageController.navigateBackInHistory('pm:ReservaListPage')}"/>
+            </h:form>
+        </pm:header>
+
+        <pm:content>
+
+            <h:form id="ReservaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:outputPanel rendered="#{reservaController.selected != null}">
+
+                        <pm:field>
+                            <h:outputLabel value="#{myBundle.EditReservaLabel_idReserva}" for="idReserva" />
+                            <h:outputText id="idReserva" value="#{reservaController.selected.idReserva}" />
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditReservaLabel_qr}" for="qr" />
+                            <p:inputTextarea rows="4" cols="30" id="qr" value="#{reservaController.selected.qr}" title="#{myBundle.EditReservaTitle_qr}" />
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditReservaLabel_estado}" for="estado" />
+                            <p:selectBooleanCheckbox id="estado" value="#{reservaController.selected.estado}" />
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditReservaLabel_fecha}" for="fecha" />
+                            <p:calendar id="fecha" pattern="MM/dd/yyyy" value="#{reservaController.selected.fecha}" title="#{myBundle.EditReservaTitle_fecha}"  showOn="button"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditReservaLabel_USUARIODocument}" for="USUARIODocument" />
+                            <p:selectOneMenu id="USUARIODocument" value="#{reservaController.selected.USUARIODocument}" required="true" requiredMessage="#{myBundle.EditReservaRequiredMessage_USUARIODocument}" converter="usuarioConverter">
+                                <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{usuarioController.items}"
+                                               var="USUARIODocumentItem"
+                                               itemValue="#{USUARIODocumentItem}"
+                                               itemLabel="#{USUARIODocumentItem.document.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                        </pm:field>
+                    </p:outputPanel>
+                    <p:commandButton actionListener="#{reservaController.save}" value="#{myBundle.Save}" update="#{mobilePageController.updatableWidgets(component,'display,:ReservaListPage:ReservaListForm:datalist,:growl')}" action="#{mobilePageController.navigateWithHistory('pm:ReservaListPage')}"/>
+
+                </h:panelGroup>
+
+            </h:form>
+
+        </pm:content>
+
+    </pm:page>
+
+</ui:composition>

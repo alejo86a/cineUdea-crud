@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pm="http://primefaces.org/mobile">
+
+    <pm:page id="ProgramacionCreatePage" lazy="true">
+        <pm:header title="#{myBundle.CreateProgramacionTitle}">
+            <h:form>
+                <p:commandButton styleClass="ui-btn-left ui-btn-inline" value="#{myBundle.Cancel}" icon="ui-icon-arrow-l" action="#{mobilePageController.navigateBackInHistory('pm:ProgramacionListPage')}"/>
+            </h:form>
+        </pm:header>
+
+        <pm:content>
+
+            <h:form id="ProgramacionCreateForm">
+
+                <h:panelGroup id="display" rendered="#{programacionController.selected != null}">
+                    <p:outputPanel>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.CreateProgramacionLabel_idProgramacion}" for="idProgramacion" />
+                            <p:inputText id="idProgramacion" value="#{programacionController.selected.idProgramacion}" title="#{myBundle.CreateProgramacionTitle_idProgramacion}" required="true" requiredMessage="#{myBundle.CreateProgramacionRequiredMessage_idProgramacion}" size="45" maxlength="45"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.CreateProgramacionLabel_fechaInicio}" for="fechaInicio" />
+                            <p:calendar id="fechaInicio" pattern="MM/dd/yyyy" value="#{programacionController.selected.fechaInicio}" title="#{myBundle.CreateProgramacionTitle_fechaInicio}"  showOn="button"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.CreateProgramacionLabel_fechaFin}" for="fechaFin" />
+                            <p:calendar id="fechaFin" pattern="MM/dd/yyyy" value="#{programacionController.selected.fechaFin}" title="#{myBundle.CreateProgramacionTitle_fechaFin}"  showOn="button"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.CreateProgramacionLabel_SALAidSALA}" for="SALAidSALA" />
+                            <p:selectOneMenu id="SALAidSALA" value="#{programacionController.selected.SALAidSALA}" required="true" requiredMessage="#{myBundle.CreateProgramacionRequiredMessage_SALAidSALA}" converter="salaConverter">
+                                <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{salaController.items}"
+                                               var="SALAidSALAItem"
+                                               itemValue="#{SALAidSALAItem}"
+                                               itemLabel="#{SALAidSALAItem.idSALA.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                        </pm:field>
+                    </p:outputPanel>
+                    <p:commandButton actionListener="#{programacionController.saveNew}" value="#{myBundle.Save}" update="display,:ProgramacionListPage:ProgramacionListForm:datalist,:growl" action="#{mobilePageController.navigateWithHistory('pm:ProgramacionListPage')}"/>
+
+                </h:panelGroup>
+
+            </h:form>
+
+        </pm:content>
+
+    </pm:page>
+
+</ui:composition>

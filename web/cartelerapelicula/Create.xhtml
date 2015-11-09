@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CartelerapeliculaCreateDlg" widgetVar="CartelerapeliculaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreateCartelerapeliculaTitle}" closeOnEscape="true">
+
+            <h:form id="CartelerapeliculaCreateForm">
+
+                <h:panelGroup id="display" rendered="#{cartelerapeliculaController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{myBundle.CreateCartelerapeliculaLabel_cartelerapeliculaPK_idCARTELERAPELICULA}" for="cartelerapeliculaPK_idCARTELERAPELICULA" />
+                        <p:inputText id="cartelerapeliculaPK_idCARTELERAPELICULA" value="#{cartelerapeliculaController.selected.cartelerapeliculaPK.idCARTELERAPELICULA}" title="#{myBundle.CreateCartelerapeliculaTitle_cartelerapeliculaPK_idCARTELERAPELICULA}" required="true" requiredMessage="#{myBundle.CreateCartelerapeliculaRequiredMessage_cartelerapeliculaPK_idCARTELERAPELICULA}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateCartelerapeliculaLabel_cartelera}" for="cartelera" />
+                        <p:selectOneMenu id="cartelera" value="#{cartelerapeliculaController.selected.cartelera}" required="true" requiredMessage="#{myBundle.CreateCartelerapeliculaRequiredMessage_cartelera}" converter="carteleraConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{carteleraController.items}"
+                                           var="carteleraItem"
+                                           itemValue="#{carteleraItem}"
+                                           itemLabel="#{carteleraItem.idCARTELERA.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.CreateCartelerapeliculaLabel_pelicula}" for="pelicula" />
+                        <p:selectOneMenu id="pelicula" value="#{cartelerapeliculaController.selected.pelicula}" required="true" requiredMessage="#{myBundle.CreateCartelerapeliculaRequiredMessage_pelicula}" converter="peliculaConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{peliculaController.items}"
+                                           var="peliculaItem"
+                                           itemValue="#{peliculaItem}"
+                                           itemLabel="#{peliculaItem.idPELICULA.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{cartelerapeliculaController.saveNew}" value="#{myBundle.Save}" update="display,:CartelerapeliculaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CartelerapeliculaCreateDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="PF('CartelerapeliculaCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

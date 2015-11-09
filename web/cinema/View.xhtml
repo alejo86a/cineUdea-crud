@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CinemaViewDlg" widgetVar="CinemaViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewCinemaTitle}" closeOnEscape="true">
+
+            <h:form id="CinemaViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{cinemaController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewCinemaLabel_idCINEMA}"/>
+                        <h:outputText value="#{cinemaController.selected.idCINEMA}" title="#{myBundle.ViewCinemaTitle_idCINEMA}"/>
+
+                        <h:outputText value="#{myBundle.ViewCinemaLabel_direccion}"/>
+                        <h:outputText value="#{cinemaController.selected.direccion}" title="#{myBundle.ViewCinemaTitle_direccion}"/>
+
+                        <h:outputText value="#{myBundle.ViewCinemaLabel_nombre}"/>
+                        <h:outputText value="#{cinemaController.selected.nombre}" title="#{myBundle.ViewCinemaTitle_nombre}"/>
+
+                        <h:outputText value="#{myBundle.ViewCinemaLabel_ciudad}"/>
+                        <h:outputText value="#{cinemaController.selected.ciudad}" title="#{myBundle.ViewCinemaTitle_ciudad}"/>
+
+                        <h:outputText value="#{myBundle.ViewCinemaLabel_pais}"/>
+                        <h:outputText value="#{cinemaController.selected.pais}" title="#{myBundle.ViewCinemaTitle_pais}"/>
+
+                        <h:outputText value="#{myBundle.ViewCinemaLabel_telefono}"/>
+                        <h:outputText value="#{cinemaController.selected.telefono}" title="#{myBundle.ViewCinemaTitle_telefono}"/>
+
+                        <h:outputText value="#{myBundle.ViewCinemaLabel_cartelera}"/>
+                        <h:outputText value="#{cinemaController.selected.cartelera.idCARTELERA}"/>
+
+                        <h:outputText value="#{myBundle.ViewCinemaLabel_cineNit}"/>
+                        <h:outputText value="#{cinemaController.selected.cineNit.nit}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('CinemaViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

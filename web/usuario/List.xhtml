@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="UsuarioListForm">
+
+        <p:panel header="#{myBundle.ListUsuarioTitle}">
+            <p:contextMenu id="UsuarioDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{myBundle.Create}" onclick="document.getElementById('UsuarioListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{myBundle.View}" onclick="document.getElementById('UsuarioListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{myBundle.Edit}" onclick="document.getElementById('UsuarioListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{myBundle.Delete}" onclick="document.getElementById('UsuarioListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{myBundle.UsuarioMenuItem_generoidGenero}" icon="ui-icon-search"  actionListener="#{usuarioController.prepareGeneroidGenero}" update=":GeneroViewForm" oncomplete="PF('GeneroViewDialog').show()" disabled="#{empty usuarioController.selected.generoidGenero}"/>  
+                <p:menuitem value="#{myBundle.UsuarioMenuItem_MUNICIPIOidMUNICIPIO}" icon="ui-icon-search"  actionListener="#{usuarioController.prepareMUNICIPIOidMUNICIPIO}" update=":MunicipioViewForm" oncomplete="PF('MunicipioViewDialog').show()" disabled="#{empty usuarioController.selected.mUNICIPIOidMUNICIPIO}"/>  
+                <p:menuitem value="#{myBundle.UsuarioMenuItem_reservaList}" icon="ui-icon-search"  action="#{usuarioController.navigateReservaList}" disabled="#{empty usuarioController.selected.reservaList}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{usuarioController.items}"
+                         var="item"
+                         rowKey="#{item.document}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{usuarioController.selected}">
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:UsuarioDataTableContextMenu" listener="#{usuarioController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:UsuarioDataTableContextMenu" listener="#{usuarioController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{usuarioController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('UsuarioListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.document}" filterBy="#{item.document}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListUsuarioTitle_document}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.document}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.tipoDoc}" filterBy="#{item.tipoDoc}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListUsuarioTitle_tipoDoc}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tipoDoc}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.nombres}" filterBy="#{item.nombres}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListUsuarioTitle_nombres}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.nombres}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.apellidos}" filterBy="#{item.apellidos}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListUsuarioTitle_apellidos}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.apellidos}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.correo}" filterBy="#{item.correo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListUsuarioTitle_correo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.correo}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.contraseña}" filterBy="#{item.contraseña}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListUsuarioTitle_contraseña}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.contraseña}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.telefono}" filterBy="#{item.telefono}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListUsuarioTitle_telefono}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.telefono}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.sexo}" filterBy="#{item.sexo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListUsuarioTitle_sexo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.sexo}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.barrio}" filterBy="#{item.barrio}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListUsuarioTitle_barrio}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.barrio}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.direccion}" filterBy="#{item.direccion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListUsuarioTitle_direccion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.direccion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.fechaNacimiento}" filterBy="#{item.fechaNacimiento}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListUsuarioTitle_fechaNacimiento}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaNacimiento}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.celular}" filterBy="#{item.celular}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListUsuarioTitle_celular}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.celular}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.tipo}" filterBy="#{item.tipo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListUsuarioTitle_tipo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tipo}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.generoidGenero.idGenero}" filterBy="#{item.generoidGenero.idGenero}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListUsuarioTitle_generoidGenero}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.generoidGenero.idGenero}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.MUNICIPIOidMUNICIPIO.idMUNICIPIO}" filterBy="#{item.MUNICIPIOidMUNICIPIO.idMUNICIPIO}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListUsuarioTitle_MUNICIPIOidMUNICIPIO}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.MUNICIPIOidMUNICIPIO.idMUNICIPIO}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{usuarioController.prepareCreate}" update=":UsuarioCreateForm" oncomplete="PF('UsuarioCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{myBundle.View}" update=":UsuarioViewForm" oncomplete="PF('UsuarioViewDialog').show()" disabled="#{empty usuarioController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":UsuarioEditForm" oncomplete="PF('UsuarioEditDialog').show()" disabled="#{empty usuarioController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{usuarioController.delete}" update=":growl,datalist" disabled="#{empty usuarioController.selected}">
+                <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

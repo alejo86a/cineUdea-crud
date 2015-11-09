@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="ReservaListForm">
+
+        <p:panel header="#{myBundle.ListReservaTitle}">
+            <p:contextMenu id="ReservaDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{myBundle.Create}" onclick="document.getElementById('ReservaListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{myBundle.View}" onclick="document.getElementById('ReservaListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{myBundle.Edit}" onclick="document.getElementById('ReservaListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{myBundle.Delete}" onclick="document.getElementById('ReservaListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{myBundle.ReservaMenuItem_boletaList}" icon="ui-icon-search"  action="#{reservaController.navigateBoletaList}" disabled="#{empty reservaController.selected.boletaList}" ajax="false"/>  
+                <p:menuitem value="#{myBundle.ReservaMenuItem_USUARIODocument}" icon="ui-icon-search"  actionListener="#{reservaController.prepareUSUARIODocument}" update=":UsuarioViewForm" oncomplete="PF('UsuarioViewDialog').show()" disabled="#{empty reservaController.selected.uSUARIODocument}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{reservaController.items}"
+                         var="item"
+                         rowKey="#{item.idReserva}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{reservaController.selected}">
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:ReservaDataTableContextMenu" listener="#{reservaController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:ReservaDataTableContextMenu" listener="#{reservaController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{reservaController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('ReservaListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idReserva}" filterBy="#{item.idReserva}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListReservaTitle_idReserva}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idReserva}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.qr}" filterBy="#{item.qr}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListReservaTitle_qr}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.qr}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.estado}" filterBy="#{item.estado}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListReservaTitle_estado}"/>
+                    </f:facet>
+                    <h:selectBooleanCheckbox id="estado" value="#{item.estado}" title="#{myBundle.EditReservaTitle_estado}"  disabled="true"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.fecha}" filterBy="#{item.fecha}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListReservaTitle_fecha}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fecha}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.USUARIODocument.document}" filterBy="#{item.USUARIODocument.document}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListReservaTitle_USUARIODocument}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.USUARIODocument.document}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{reservaController.prepareCreate}" update=":ReservaCreateForm" oncomplete="PF('ReservaCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{myBundle.View}" update=":ReservaViewForm" oncomplete="PF('ReservaViewDialog').show()" disabled="#{empty reservaController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":ReservaEditForm" oncomplete="PF('ReservaEditDialog').show()" disabled="#{empty reservaController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{reservaController.delete}" update=":growl,datalist" disabled="#{empty reservaController.selected}">
+                <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

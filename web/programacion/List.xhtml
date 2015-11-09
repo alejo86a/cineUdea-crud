@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="ProgramacionListForm">
+
+        <p:panel header="#{myBundle.ListProgramacionTitle}">
+            <p:contextMenu id="ProgramacionDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{myBundle.Create}" onclick="document.getElementById('ProgramacionListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{myBundle.View}" onclick="document.getElementById('ProgramacionListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{myBundle.Edit}" onclick="document.getElementById('ProgramacionListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{myBundle.Delete}" onclick="document.getElementById('ProgramacionListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{myBundle.ProgramacionMenuItem_SALAidSALA}" icon="ui-icon-search"  actionListener="#{programacionController.prepareSALAidSALA}" update=":SalaViewForm" oncomplete="PF('SalaViewDialog').show()" disabled="#{empty programacionController.selected.sALAidSALA}"/>  
+                <p:menuitem value="#{myBundle.ProgramacionMenuItem_funcionList}" icon="ui-icon-search"  action="#{programacionController.navigateFuncionList}" disabled="#{empty programacionController.selected.funcionList}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{programacionController.items}"
+                         var="item"
+                         rowKey="#{item.idProgramacion}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{programacionController.selected}">
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:ProgramacionDataTableContextMenu" listener="#{programacionController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:ProgramacionDataTableContextMenu" listener="#{programacionController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{programacionController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('ProgramacionListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idProgramacion}" filterBy="#{item.idProgramacion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListProgramacionTitle_idProgramacion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idProgramacion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.fechaInicio}" filterBy="#{item.fechaInicio}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListProgramacionTitle_fechaInicio}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaInicio}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.fechaFin}" filterBy="#{item.fechaFin}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListProgramacionTitle_fechaFin}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaFin}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.SALAidSALA.idSALA}" filterBy="#{item.SALAidSALA.idSALA}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListProgramacionTitle_SALAidSALA}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.SALAidSALA.idSALA}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{programacionController.prepareCreate}" update=":ProgramacionCreateForm" oncomplete="PF('ProgramacionCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{myBundle.View}" update=":ProgramacionViewForm" oncomplete="PF('ProgramacionViewDialog').show()" disabled="#{empty programacionController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":ProgramacionEditForm" oncomplete="PF('ProgramacionEditDialog').show()" disabled="#{empty programacionController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{programacionController.delete}" update=":growl,datalist" disabled="#{empty programacionController.selected}">
+                <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

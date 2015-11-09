@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="SalaListForm">
+
+        <p:panel header="#{myBundle.ListSalaTitle}">
+            <p:contextMenu id="SalaDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{myBundle.Create}" onclick="document.getElementById('SalaListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{myBundle.View}" onclick="document.getElementById('SalaListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{myBundle.Edit}" onclick="document.getElementById('SalaListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{myBundle.Delete}" onclick="document.getElementById('SalaListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{myBundle.SalaMenuItem_sillaList}" icon="ui-icon-search"  action="#{salaController.navigateSillaList}" disabled="#{empty salaController.selected.sillaList}" ajax="false"/>  
+                <p:menuitem value="#{myBundle.SalaMenuItem_CINEMAidCINEMA}" icon="ui-icon-search"  actionListener="#{salaController.prepareCINEMAidCINEMA}" update=":CinemaViewForm" oncomplete="PF('CinemaViewDialog').show()" disabled="#{empty salaController.selected.cINEMAidCINEMA}"/>  
+                <p:menuitem value="#{myBundle.SalaMenuItem_programacionList}" icon="ui-icon-search"  action="#{salaController.navigateProgramacionList}" disabled="#{empty salaController.selected.programacionList}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{salaController.items}"
+                         var="item"
+                         rowKey="#{item.idSALA}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{salaController.selected}">
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:SalaDataTableContextMenu" listener="#{salaController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:SalaDataTableContextMenu" listener="#{salaController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{salaController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('SalaListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idSALA}" filterBy="#{item.idSALA}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListSalaTitle_idSALA}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idSALA}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.codigo}" filterBy="#{item.codigo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListSalaTitle_codigo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.codigo}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.numeroSala}" filterBy="#{item.numeroSala}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListSalaTitle_numeroSala}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.numeroSala}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.SALAcol}" filterBy="#{item.SALAcol}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListSalaTitle_SALAcol}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.SALAcol}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.CINEMAidCINEMA.idCINEMA}" filterBy="#{item.CINEMAidCINEMA.idCINEMA}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListSalaTitle_CINEMAidCINEMA}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.CINEMAidCINEMA.idCINEMA}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{salaController.prepareCreate}" update=":SalaCreateForm" oncomplete="PF('SalaCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{myBundle.View}" update=":SalaViewForm" oncomplete="PF('SalaViewDialog').show()" disabled="#{empty salaController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":SalaEditForm" oncomplete="PF('SalaEditDialog').show()" disabled="#{empty salaController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{salaController.delete}" update=":growl,datalist" disabled="#{empty salaController.selected}">
+                <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

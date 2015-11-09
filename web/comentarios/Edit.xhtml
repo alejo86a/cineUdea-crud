@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ComentariosEditDlg" widgetVar="ComentariosEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditComentariosTitle}" closeOnEscape="true">
+
+            <h:form id="ComentariosEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{comentariosController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditComentariosLabel_idCOMENTARIO}" for="idCOMENTARIO" />
+                        <h:outputText id="idCOMENTARIO" value="#{comentariosController.selected.idCOMENTARIO}" />
+
+                        <p:outputLabel value="#{myBundle.EditComentariosLabel_comentario}" for="comentario" />
+                        <p:inputTextarea rows="4" cols="30" id="comentario" value="#{comentariosController.selected.comentario}" title="#{myBundle.EditComentariosTitle_comentario}" />
+
+                        <p:outputLabel value="#{myBundle.EditComentariosLabel_autor}" for="autor" />
+                        <p:inputText id="autor" value="#{comentariosController.selected.autor}" title="#{myBundle.EditComentariosTitle_autor}" size="75" maxlength="75"/>
+
+                        <p:outputLabel value="#{myBundle.EditComentariosLabel_fecha}" for="fecha" />
+                        <p:calendar id="fecha" pattern="MM/dd/yyyy" value="#{comentariosController.selected.fecha}" title="#{myBundle.EditComentariosTitle_fecha}"  showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.EditComentariosLabel_pelicula}" for="pelicula" />
+                        <p:selectOneMenu id="pelicula" value="#{comentariosController.selected.pelicula}" required="true" requiredMessage="#{myBundle.EditComentariosRequiredMessage_pelicula}" converter="peliculaConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{peliculaController.items}"
+                                           var="peliculaItem"
+                                           itemValue="#{peliculaItem}"
+                                           itemLabel="#{peliculaItem.idPELICULA.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{comentariosController.save}" value="#{myBundle.Save}" update="display,:ComentariosListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ComentariosEditDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="PF('ComentariosEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

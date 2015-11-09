@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="SalaEditDlg" widgetVar="SalaEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditSalaTitle}" closeOnEscape="true">
+
+            <h:form id="SalaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{salaController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditSalaLabel_idSALA}" for="idSALA" />
+                        <h:outputText id="idSALA" value="#{salaController.selected.idSALA}" />
+
+                        <p:outputLabel value="#{myBundle.EditSalaLabel_codigo}" for="codigo" />
+                        <p:inputText id="codigo" value="#{salaController.selected.codigo}" title="#{myBundle.EditSalaTitle_codigo}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{myBundle.EditSalaLabel_numeroSala}" for="numeroSala" />
+                        <p:inputText id="numeroSala" value="#{salaController.selected.numeroSala}" title="#{myBundle.EditSalaTitle_numeroSala}"/>
+
+                        <p:outputLabel value="#{myBundle.EditSalaLabel_SALAcol}" for="SALAcol" />
+                        <p:inputText id="SALAcol" value="#{salaController.selected.SALAcol}" title="#{myBundle.EditSalaTitle_SALAcol}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{myBundle.EditSalaLabel_CINEMAidCINEMA}" for="CINEMAidCINEMA" />
+                        <p:selectOneMenu id="CINEMAidCINEMA" value="#{salaController.selected.CINEMAidCINEMA}" required="true" requiredMessage="#{myBundle.EditSalaRequiredMessage_CINEMAidCINEMA}" converter="cinemaConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{cinemaController.items}"
+                                           var="CINEMAidCINEMAItem"
+                                           itemValue="#{CINEMAidCINEMAItem}"
+                                           itemLabel="#{CINEMAidCINEMAItem.idCINEMA.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{salaController.save}" value="#{myBundle.Save}" update="display,:SalaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('SalaEditDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="PF('SalaEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

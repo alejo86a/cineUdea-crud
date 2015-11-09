@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pm="http://primefaces.org/mobile">
+
+    <h:form id="menuForm">
+        <p:menu>
+            <p:submenu label="#{myBundle.Maintenance}">
+                <p:menuitem value="#{myBundle.BoletaHeading}..." outcome="/mobile/boleta/index" />
+                <p:menuitem value="#{myBundle.CarteleraHeading}..." outcome="/mobile/cartelera/index" />
+                <p:menuitem value="#{myBundle.CartelerapeliculaHeading}..." outcome="/mobile/cartelerapelicula/index" />
+                <p:menuitem value="#{myBundle.CineHeading}..." outcome="/mobile/cine/index" />
+                <p:menuitem value="#{myBundle.CinemaHeading}..." outcome="/mobile/cinema/index" />
+                <p:menuitem value="#{myBundle.ClasificacionHeading}..." outcome="/mobile/clasificacion/index" />
+                <p:menuitem value="#{myBundle.ComentariosHeading}..." outcome="/mobile/comentarios/index" />
+                <p:menuitem value="#{myBundle.FormatoHeading}..." outcome="/mobile/formato/index" />
+                <p:menuitem value="#{myBundle.FuncionHeading}..." outcome="/mobile/funcion/index" />
+                <p:menuitem value="#{myBundle.GeneroHeading}..." outcome="/mobile/genero/index" />
+                <p:menuitem value="#{myBundle.LenguajeHeading}..." outcome="/mobile/lenguaje/index" />
+                <p:menuitem value="#{myBundle.LocalidadHeading}..." outcome="/mobile/localidad/index" />
+                <p:menuitem value="#{myBundle.MunicipioHeading}..." outcome="/mobile/municipio/index" />
+                <p:menuitem value="#{myBundle.PeliculaHeading}..." outcome="/mobile/pelicula/index" />
+                <p:menuitem value="#{myBundle.PrecioHeading}..." outcome="/mobile/precio/index" />
+                <p:menuitem value="#{myBundle.ProgramacionHeading}..." outcome="/mobile/programacion/index" />
+                <p:menuitem value="#{myBundle.ReservaHeading}..." outcome="/mobile/reserva/index" />
+                <p:menuitem value="#{myBundle.SalaHeading}..." outcome="/mobile/sala/index" />
+                <p:menuitem value="#{myBundle.SillaHeading}..." outcome="/mobile/silla/index" />
+                <p:menuitem value="#{myBundle.UsuarioHeading}..." outcome="/mobile/usuario/index" />
+            </p:submenu>
+            <p:menuitem value="#{myBundle.FullApp}" outcome="/index" icon="ui-icon-home"/>
+        </p:menu>
+    </h:form>
+</ui:composition>

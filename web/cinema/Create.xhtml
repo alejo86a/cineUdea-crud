@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CinemaCreateDlg" widgetVar="CinemaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreateCinemaTitle}" closeOnEscape="true">
+
+            <h:form id="CinemaCreateForm">
+
+                <h:panelGroup id="display" rendered="#{cinemaController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{myBundle.CreateCinemaLabel_idCINEMA}" for="idCINEMA" />
+                        <p:inputText id="idCINEMA" value="#{cinemaController.selected.idCINEMA}" title="#{myBundle.CreateCinemaTitle_idCINEMA}" required="true" requiredMessage="#{myBundle.CreateCinemaRequiredMessage_idCINEMA}" size="40" maxlength="40"/>
+
+                        <p:outputLabel value="#{myBundle.CreateCinemaLabel_direccion}" for="direccion" />
+                        <p:inputText id="direccion" value="#{cinemaController.selected.direccion}" title="#{myBundle.CreateCinemaTitle_direccion}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{myBundle.CreateCinemaLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{cinemaController.selected.nombre}" title="#{myBundle.CreateCinemaTitle_nombre}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{myBundle.CreateCinemaLabel_ciudad}" for="ciudad" />
+                        <p:inputText id="ciudad" value="#{cinemaController.selected.ciudad}" title="#{myBundle.CreateCinemaTitle_ciudad}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{myBundle.CreateCinemaLabel_pais}" for="pais" />
+                        <p:inputText id="pais" value="#{cinemaController.selected.pais}" title="#{myBundle.CreateCinemaTitle_pais}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{myBundle.CreateCinemaLabel_telefono}" for="telefono" />
+                        <p:inputText id="telefono" value="#{cinemaController.selected.telefono}" title="#{myBundle.CreateCinemaTitle_telefono}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{myBundle.CreateCinemaLabel_cartelera}" for="cartelera" />
+                        <p:selectOneMenu id="cartelera" value="#{cinemaController.selected.cartelera}"  converter="carteleraConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{carteleraController.items}"
+                                           var="carteleraItem"
+                                           itemValue="#{carteleraItem}"
+                                           itemLabel="#{carteleraItem.idCARTELERA.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.CreateCinemaLabel_cineNit}" for="cineNit" />
+                        <p:selectOneMenu id="cineNit" value="#{cinemaController.selected.cineNit}" required="true" requiredMessage="#{myBundle.CreateCinemaRequiredMessage_cineNit}" converter="cineConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{cineController.items}"
+                                           var="cineNitItem"
+                                           itemValue="#{cineNitItem}"
+                                           itemLabel="#{cineNitItem.nit.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{cinemaController.saveNew}" value="#{myBundle.Save}" update="display,:CinemaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CinemaCreateDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="PF('CinemaCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

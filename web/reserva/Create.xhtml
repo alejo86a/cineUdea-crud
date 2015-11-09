@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ReservaCreateDlg" widgetVar="ReservaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreateReservaTitle}" closeOnEscape="true">
+
+            <h:form id="ReservaCreateForm">
+
+                <h:panelGroup id="display" rendered="#{reservaController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{myBundle.CreateReservaLabel_qr}" for="qr" />
+                        <p:inputTextarea rows="4" cols="30" id="qr" value="#{reservaController.selected.qr}" title="#{myBundle.CreateReservaTitle_qr}" />
+
+                        <p:outputLabel value="#{myBundle.CreateReservaLabel_estado}" for="estado" />
+                        <p:selectBooleanCheckbox id="estado" value="#{reservaController.selected.estado}" />
+
+                        <p:outputLabel value="#{myBundle.CreateReservaLabel_fecha}" for="fecha" />
+                        <p:calendar id="fecha" pattern="MM/dd/yyyy" value="#{reservaController.selected.fecha}" title="#{myBundle.CreateReservaTitle_fecha}"  showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.CreateReservaLabel_USUARIODocument}" for="USUARIODocument" />
+                        <p:selectOneMenu id="USUARIODocument" value="#{reservaController.selected.USUARIODocument}" required="true" requiredMessage="#{myBundle.CreateReservaRequiredMessage_USUARIODocument}" converter="usuarioConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{usuarioController.items}"
+                                           var="USUARIODocumentItem"
+                                           itemValue="#{USUARIODocumentItem}"
+                                           itemLabel="#{USUARIODocumentItem.document.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{reservaController.saveNew}" value="#{myBundle.Save}" update="display,:ReservaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ReservaCreateDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="PF('ReservaCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

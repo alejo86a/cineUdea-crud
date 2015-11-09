@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ComentariosViewDlg" widgetVar="ComentariosViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewComentariosTitle}" closeOnEscape="true">
+
+            <h:form id="ComentariosViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{comentariosController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewComentariosLabel_idCOMENTARIO}"/>
+                        <h:outputText value="#{comentariosController.selected.idCOMENTARIO}" title="#{myBundle.ViewComentariosTitle_idCOMENTARIO}"/>
+
+                        <h:outputText value="#{myBundle.ViewComentariosLabel_comentario}"/>
+                        <h:outputText value="#{comentariosController.selected.comentario}" title="#{myBundle.ViewComentariosTitle_comentario}"/>
+
+                        <h:outputText value="#{myBundle.ViewComentariosLabel_autor}"/>
+                        <h:outputText value="#{comentariosController.selected.autor}" title="#{myBundle.ViewComentariosTitle_autor}"/>
+
+                        <h:outputText value="#{myBundle.ViewComentariosLabel_fecha}"/>
+                        <h:outputText value="#{comentariosController.selected.fecha}" title="#{myBundle.ViewComentariosTitle_fecha}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewComentariosLabel_pelicula}"/>
+                        <h:outputText value="#{comentariosController.selected.pelicula.idPELICULA}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('ComentariosViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

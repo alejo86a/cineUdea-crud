@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PeliculaViewDlg" widgetVar="PeliculaViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewPeliculaTitle}" closeOnEscape="true">
+
+            <h:form id="PeliculaViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{peliculaController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewPeliculaLabel_idPELICULA}"/>
+                        <h:outputText value="#{peliculaController.selected.idPELICULA}" title="#{myBundle.ViewPeliculaTitle_idPELICULA}"/>
+
+                        <h:outputText value="#{myBundle.ViewPeliculaLabel_nombre}"/>
+                        <h:outputText value="#{peliculaController.selected.nombre}" title="#{myBundle.ViewPeliculaTitle_nombre}"/>
+
+                        <h:outputText value="#{myBundle.ViewPeliculaLabel_trailer}"/>
+                        <h:outputText value="#{peliculaController.selected.trailer}" title="#{myBundle.ViewPeliculaTitle_trailer}"/>
+
+                        <h:outputText value="#{myBundle.ViewPeliculaLabel_imagen}"/>
+                        <h:outputText value="#{peliculaController.selected.imagen}" title="#{myBundle.ViewPeliculaTitle_imagen}"/>
+
+                        <h:outputText value="#{myBundle.ViewPeliculaLabel_pais}"/>
+                        <h:outputText value="#{peliculaController.selected.pais}" title="#{myBundle.ViewPeliculaTitle_pais}"/>
+
+                        <h:outputText value="#{myBundle.ViewPeliculaLabel_director}"/>
+                        <h:outputText value="#{peliculaController.selected.director}" title="#{myBundle.ViewPeliculaTitle_director}"/>
+
+                        <h:outputText value="#{myBundle.ViewPeliculaLabel_reparto}"/>
+                        <h:outputText value="#{peliculaController.selected.reparto}" title="#{myBundle.ViewPeliculaTitle_reparto}"/>
+
+                        <h:outputText value="#{myBundle.ViewPeliculaLabel_censura}"/>
+                        <h:outputText value="#{peliculaController.selected.censura.idClasificacion}"/>
+
+                        <h:outputText value="#{myBundle.ViewPeliculaLabel_formato}"/>
+                        <h:outputText value="#{peliculaController.selected.formato.idFORMATO}"/>
+
+                        <h:outputText value="#{myBundle.ViewPeliculaLabel_generoidGenero}"/>
+                        <h:outputText value="#{peliculaController.selected.generoidGenero.idGenero}"/>
+
+                        <h:outputText value="#{myBundle.ViewPeliculaLabel_lenguaje}"/>
+                        <h:outputText value="#{peliculaController.selected.lenguaje.idLENGUAJE}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('PeliculaViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

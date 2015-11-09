@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pm="http://primefaces.org/mobile">
+
+    <pm:page id="CarteleraEditPage" lazy="true">
+        <pm:header title="#{myBundle.EditCarteleraTitle}">
+            <h:form>
+                <p:commandButton styleClass="ui-btn-left ui-btn-inline" value="#{myBundle.Cancel}" icon="ui-icon-arrow-l" action="#{mobilePageController.navigateBackInHistory('pm:CarteleraListPage')}"/>
+            </h:form>
+        </pm:header>
+
+        <pm:content>
+
+            <h:form id="CarteleraEditForm">
+
+                <h:panelGroup id="display">
+                    <p:outputPanel rendered="#{carteleraController.selected != null}">
+
+                        <pm:field>
+                            <h:outputLabel value="#{myBundle.EditCarteleraLabel_idCARTELERA}" for="idCARTELERA" />
+                            <h:outputText id="idCARTELERA" value="#{carteleraController.selected.idCARTELERA}" />
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditCarteleraLabel_direccion}" for="direccion" />
+                            <p:inputText id="direccion" value="#{carteleraController.selected.direccion}" title="#{myBundle.EditCarteleraTitle_direccion}" size="100" maxlength="100"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditCarteleraLabel_fechaInicio}" for="fechaInicio" />
+                            <p:calendar id="fechaInicio" pattern="MM/dd/yyyy" value="#{carteleraController.selected.fechaInicio}" title="#{myBundle.EditCarteleraTitle_fechaInicio}"  showOn="button"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditCarteleraLabel_fechaFin}" for="fechaFin" />
+                            <p:inputText id="fechaFin" value="#{carteleraController.selected.fechaFin}" title="#{myBundle.EditCarteleraTitle_fechaFin}" size="45" maxlength="45"/>
+                        </pm:field>
+                    </p:outputPanel>
+                    <p:commandButton actionListener="#{carteleraController.save}" value="#{myBundle.Save}" update="#{mobilePageController.updatableWidgets(component,'display,:CarteleraListPage:CarteleraListForm:datalist,:growl')}" action="#{mobilePageController.navigateWithHistory('pm:CarteleraListPage')}"/>
+
+                </h:panelGroup>
+
+            </h:form>
+
+        </pm:content>
+
+    </pm:page>
+
+</ui:composition>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="FuncionListForm">
+
+        <p:panel header="#{myBundle.ListFuncionTitle}">
+            <p:contextMenu id="FuncionDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{myBundle.Create}" onclick="document.getElementById('FuncionListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{myBundle.View}" onclick="document.getElementById('FuncionListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{myBundle.Edit}" onclick="document.getElementById('FuncionListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{myBundle.Delete}" onclick="document.getElementById('FuncionListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{myBundle.FuncionMenuItem_boletaList}" icon="ui-icon-search"  action="#{funcionController.navigateBoletaList}" disabled="#{empty funcionController.selected.boletaList}" ajax="false"/>  
+                <p:menuitem value="#{myBundle.FuncionMenuItem_PELICULAidPELICULA}" icon="ui-icon-search"  actionListener="#{funcionController.preparePELICULAidPELICULA}" update=":PeliculaViewForm" oncomplete="PF('PeliculaViewDialog').show()" disabled="#{empty funcionController.selected.pELICULAidPELICULA}"/>  
+                <p:menuitem value="#{myBundle.FuncionMenuItem_PROGRAMACIONidProgramacion}" icon="ui-icon-search"  actionListener="#{funcionController.preparePROGRAMACIONidProgramacion}" update=":ProgramacionViewForm" oncomplete="PF('ProgramacionViewDialog').show()" disabled="#{empty funcionController.selected.pROGRAMACIONidProgramacion}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{funcionController.items}"
+                         var="item"
+                         rowKey="#{item.idFUNCION}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{funcionController.selected}">
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:FuncionDataTableContextMenu" listener="#{funcionController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:FuncionDataTableContextMenu" listener="#{funcionController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{funcionController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('FuncionListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idFUNCION}" filterBy="#{item.idFUNCION}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListFuncionTitle_idFUNCION}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idFUNCION}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.fecha}" filterBy="#{item.fecha}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListFuncionTitle_fecha}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fecha}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.PELICULAidPELICULA.idPELICULA}" filterBy="#{item.PELICULAidPELICULA.idPELICULA}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListFuncionTitle_PELICULAidPELICULA}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.PELICULAidPELICULA.idPELICULA}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.PROGRAMACIONidProgramacion.idProgramacion}" filterBy="#{item.PROGRAMACIONidProgramacion.idProgramacion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListFuncionTitle_PROGRAMACIONidProgramacion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.PROGRAMACIONidProgramacion.idProgramacion}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{funcionController.prepareCreate}" update=":FuncionCreateForm" oncomplete="PF('FuncionCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{myBundle.View}" update=":FuncionViewForm" oncomplete="PF('FuncionViewDialog').show()" disabled="#{empty funcionController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":FuncionEditForm" oncomplete="PF('FuncionEditDialog').show()" disabled="#{empty funcionController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{funcionController.delete}" update=":growl,datalist" disabled="#{empty funcionController.selected}">
+                <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

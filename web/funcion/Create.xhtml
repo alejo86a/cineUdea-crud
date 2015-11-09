@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="FuncionCreateDlg" widgetVar="FuncionCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreateFuncionTitle}" closeOnEscape="true">
+
+            <h:form id="FuncionCreateForm">
+
+                <h:panelGroup id="display" rendered="#{funcionController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{myBundle.CreateFuncionLabel_fecha}" for="fecha" />
+                        <p:calendar id="fecha" pattern="MM/dd/yyyy" value="#{funcionController.selected.fecha}" title="#{myBundle.CreateFuncionTitle_fecha}"  showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.CreateFuncionLabel_PELICULAidPELICULA}" for="PELICULAidPELICULA" />
+                        <p:selectOneMenu id="PELICULAidPELICULA" value="#{funcionController.selected.PELICULAidPELICULA}" required="true" requiredMessage="#{myBundle.CreateFuncionRequiredMessage_PELICULAidPELICULA}" converter="peliculaConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{peliculaController.items}"
+                                           var="PELICULAidPELICULAItem"
+                                           itemValue="#{PELICULAidPELICULAItem}"
+                                           itemLabel="#{PELICULAidPELICULAItem.idPELICULA.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.CreateFuncionLabel_PROGRAMACIONidProgramacion}" for="PROGRAMACIONidProgramacion" />
+                        <p:selectOneMenu id="PROGRAMACIONidProgramacion" value="#{funcionController.selected.PROGRAMACIONidProgramacion}"  converter="programacionConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{programacionController.items}"
+                                           var="PROGRAMACIONidProgramacionItem"
+                                           itemValue="#{PROGRAMACIONidProgramacionItem}"
+                                           itemLabel="#{PROGRAMACIONidProgramacionItem.idProgramacion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{funcionController.saveNew}" value="#{myBundle.Save}" update="display,:FuncionListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('FuncionCreateDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="PF('FuncionCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

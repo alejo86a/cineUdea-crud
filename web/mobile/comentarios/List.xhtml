@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:pm="http://primefaces.org/mobile">
+
+    <pm:page id="ComentariosListPage">
+        <pm:header title="#{myBundle.ListComentariosTitle}">
+            <h:form>
+                <p:commandButton id="backButton"   styleClass="ui-btn-left  ui-btn-inline" icon="ui-icon-arrow-l" value="#{myBundle.Back}" action="#{mobilePageController.navigateBackInHistory('/mobile/index')}"/>
+                <p:commandButton id="createButton" styleClass="ui-btn-right ui-btn-inline" icon="ui-icon-plus"    value="#{myBundle.Create}" update=":ComentariosCreatePage:ComentariosCreateForm" actionListener="#{comentariosController.prepareCreate}" action="#{mobilePageController.navigateWithHistory('pm:ComentariosCreatePage')}">
+                    <f:actionListener binding="#{currentPageListener}"/>
+                </p:commandButton>
+            </h:form>
+        </pm:header>
+
+        <pm:content>
+
+            <h:form id="ComentariosListForm">
+
+                <p:dataList id="datalist"
+                            paginator="true"
+                            rows="10"
+                            rowsPerPageTemplate="10,20,30,40,50"
+                            pt:data-inset="true"
+                            value="#{comentariosController.items}"
+                            var="item">
+
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListComentariosTitle}"/>
+                    </f:facet>
+
+                    <p:commandLink update=":ComentariosEditPage:ComentariosEditForm" action="pm:ComentariosEditPage">
+                        <p>
+
+
+
+                            <h:outputText value="#{item.idCOMENTARIO}"/>
+
+
+
+                            ,&nbsp;
+                            <h:outputText value="#{item.comentario}"/>
+
+
+
+                            ,&nbsp;
+                            <h:outputText value="#{item.autor}"/>
+
+
+
+                            ,&nbsp;
+                            <h:outputText value="#{item.fecha}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </h:outputText>
+
+
+
+                            ,&nbsp;
+                            <h:outputText value="#{item.pelicula.idPELICULA}"/>
+
+                        </p>
+                        <f:setPropertyActionListener value="#{item}" target="#{comentariosController.selected}" />
+                    </p:commandLink>
+
+                    <f:facet name="footer">
+                        <h:outputText value="#{myBundle.ListComentariosTitle}"/>
+                    </f:facet>
+
+                </p:dataList>
+            </h:form>
+
+        </pm:content>
+
+    </pm:page>
+
+</ui:composition>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="SillaListForm">
+
+        <p:panel header="#{myBundle.ListSillaTitle}">
+            <p:contextMenu id="SillaDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{myBundle.Create}" onclick="document.getElementById('SillaListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{myBundle.View}" onclick="document.getElementById('SillaListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{myBundle.Edit}" onclick="document.getElementById('SillaListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{myBundle.Delete}" onclick="document.getElementById('SillaListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{myBundle.SillaMenuItem_sala}" icon="ui-icon-search"  actionListener="#{sillaController.prepareSala}" update=":SalaViewForm" oncomplete="PF('SalaViewDialog').show()" disabled="#{empty sillaController.selected.sala}"/>  
+                <p:menuitem value="#{myBundle.SillaMenuItem_localidadIdlocalidad}" icon="ui-icon-search"  actionListener="#{sillaController.prepareLocalidadIdlocalidad}" update=":LocalidadViewForm" oncomplete="PF('LocalidadViewDialog').show()" disabled="#{empty sillaController.selected.localidadIdlocalidad}"/>  
+                <p:menuitem value="#{myBundle.SillaMenuItem_boletaList}" icon="ui-icon-search"  action="#{sillaController.navigateBoletaList}" disabled="#{empty sillaController.selected.boletaList}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{sillaController.items}"
+                         var="item"
+                         rowKey="#{item.sillaPK}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{sillaController.selected}">
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:SillaDataTableContextMenu" listener="#{sillaController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:SillaDataTableContextMenu" listener="#{sillaController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{sillaController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('SillaListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.sillaPK.numero}" filterBy="#{item.sillaPK.numero}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListSillaTitle_sillaPK_numero}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.sillaPK.numero}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.sillaPK.fila}" filterBy="#{item.sillaPK.fila}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListSillaTitle_sillaPK_fila}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.sillaPK.fila}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.disponible}" filterBy="#{item.disponible}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListSillaTitle_disponible}"/>
+                    </f:facet>
+                    <h:selectBooleanCheckbox id="disponible" value="#{item.disponible}" title="#{myBundle.EditSillaTitle_disponible}"  disabled="true"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.sala.idSALA}" filterBy="#{item.sala.idSALA}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListSillaTitle_sala}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.sala.idSALA}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.localidadIdlocalidad.idlocalidad}" filterBy="#{item.localidadIdlocalidad.idlocalidad}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListSillaTitle_localidadIdlocalidad}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.localidadIdlocalidad.idlocalidad}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{sillaController.prepareCreate}" update=":SillaCreateForm" oncomplete="PF('SillaCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{myBundle.View}" update=":SillaViewForm" oncomplete="PF('SillaViewDialog').show()" disabled="#{empty sillaController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":SillaEditForm" oncomplete="PF('SillaEditDialog').show()" disabled="#{empty sillaController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{sillaController.delete}" update=":growl,datalist" disabled="#{empty sillaController.selected}">
+                <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

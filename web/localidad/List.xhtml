@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="LocalidadListForm">
+
+        <p:panel header="#{myBundle.ListLocalidadTitle}">
+            <p:contextMenu id="LocalidadDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{myBundle.Create}" onclick="document.getElementById('LocalidadListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{myBundle.View}" onclick="document.getElementById('LocalidadListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{myBundle.Edit}" onclick="document.getElementById('LocalidadListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{myBundle.Delete}" onclick="document.getElementById('LocalidadListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{myBundle.LocalidadMenuItem_sillaList}" icon="ui-icon-search"  action="#{localidadController.navigateSillaList}" disabled="#{empty localidadController.selected.sillaList}" ajax="false"/>  
+                <p:menuitem value="#{myBundle.LocalidadMenuItem_precioList}" icon="ui-icon-search"  action="#{localidadController.navigatePrecioList}" disabled="#{empty localidadController.selected.precioList}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{localidadController.items}"
+                         var="item"
+                         rowKey="#{item.idlocalidad}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{localidadController.selected}">
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:LocalidadDataTableContextMenu"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:LocalidadDataTableContextMenu"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('LocalidadListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idlocalidad}" filterBy="#{item.idlocalidad}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListLocalidadTitle_idlocalidad}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idlocalidad}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.sitio}" filterBy="#{item.sitio}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListLocalidadTitle_sitio}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.sitio}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{localidadController.prepareCreate}" update=":LocalidadCreateForm" oncomplete="PF('LocalidadCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{myBundle.View}" update=":LocalidadViewForm" oncomplete="PF('LocalidadViewDialog').show()" disabled="#{empty localidadController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":LocalidadEditForm" oncomplete="PF('LocalidadEditDialog').show()" disabled="#{empty localidadController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{localidadController.delete}" update=":growl,datalist" disabled="#{empty localidadController.selected}">
+                <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

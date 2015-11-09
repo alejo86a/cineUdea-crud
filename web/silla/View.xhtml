@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="SillaViewDlg" widgetVar="SillaViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewSillaTitle}" closeOnEscape="true">
+
+            <h:form id="SillaViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{sillaController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewSillaLabel_sillaPK_numero}"/>
+                        <h:outputText value="#{sillaController.selected.sillaPK.numero}" title="#{myBundle.ViewSillaTitle_sillaPK_numero}"/>
+
+                        <h:outputText value="#{myBundle.ViewSillaLabel_sillaPK_fila}"/>
+                        <h:outputText value="#{sillaController.selected.sillaPK.fila}" title="#{myBundle.ViewSillaTitle_sillaPK_fila}"/>
+
+                        <h:outputText value="#{myBundle.ViewSillaLabel_disponible}"/>
+                        <h:selectBooleanCheckbox id="disponible" value="#{sillaController.selected.disponible}" title="#{myBundle.EditSillaTitle_disponible}"  disabled="true"/>
+
+                        <h:outputText value="#{myBundle.ViewSillaLabel_sala}"/>
+                        <h:outputText value="#{sillaController.selected.sala.idSALA}"/>
+
+                        <h:outputText value="#{myBundle.ViewSillaLabel_localidadIdlocalidad}"/>
+                        <h:outputText value="#{sillaController.selected.localidadIdlocalidad.idlocalidad}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('SillaViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pm="http://primefaces.org/mobile">
+
+    <pm:page id="MunicipioViewPage" lazy="true">
+        <pm:header title="#{myBundle.ViewMunicipioTitle}">
+            <h:form>
+                <p:commandButton styleClass="ui-btn-left ui-btn-inline" value="#{myBundle.Cancel}" icon="ui-icon-arrow-l" action="#{mobilePageController.navigateBackInHistory('pm:MunicipioListPage')}"/>
+            </h:form>
+        </pm:header>
+
+        <pm:content>
+
+            <h:form id="MunicipioViewForm">
+
+                <h:panelGroup id="display">
+                    <p:outputPanel rendered="#{municipioController.selected != null}">
+
+                        <pm:field>
+                            <h:outputText value="#{myBundle.ViewMunicipioLabel_idMUNICIPIO}"/>
+                            <h:outputText value="#{municipioController.selected.idMUNICIPIO}" title="#{myBundle.ViewMunicipioTitle_idMUNICIPIO}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{myBundle.ViewMunicipioLabel_nombre}"/>
+                            <h:outputText value="#{municipioController.selected.nombre}" title="#{myBundle.ViewMunicipioTitle_nombre}"/>
+                        </pm:field>
+                    </p:outputPanel>
+                </h:panelGroup>
+
+            </h:form>
+
+        </pm:content>
+
+    </pm:page>
+
+</ui:composition>

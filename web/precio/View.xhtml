@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PrecioViewDlg" widgetVar="PrecioViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewPrecioTitle}" closeOnEscape="true">
+
+            <h:form id="PrecioViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{precioController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewPrecioLabel_idPrecio}"/>
+                        <h:outputText value="#{precioController.selected.idPrecio}" title="#{myBundle.ViewPrecioTitle_idPrecio}"/>
+
+                        <h:outputText value="#{myBundle.ViewPrecioLabel_precioDinero}"/>
+                        <h:outputText value="#{precioController.selected.precioDinero}" title="#{myBundle.ViewPrecioTitle_precioDinero}"/>
+
+                        <h:outputText value="#{myBundle.ViewPrecioLabel_precioPuntos}"/>
+                        <h:outputText value="#{precioController.selected.precioPuntos}" title="#{myBundle.ViewPrecioTitle_precioPuntos}"/>
+
+                        <h:outputText value="#{myBundle.ViewPrecioLabel_FORMATOidFORMATO}"/>
+                        <h:outputText value="#{precioController.selected.FORMATOidFORMATO.idFORMATO}"/>
+
+                        <h:outputText value="#{myBundle.ViewPrecioLabel_localidadIdlocalidad}"/>
+                        <h:outputText value="#{precioController.selected.localidadIdlocalidad.idlocalidad}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('PrecioViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

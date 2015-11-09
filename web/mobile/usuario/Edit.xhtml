@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pm="http://primefaces.org/mobile">
+
+    <pm:page id="UsuarioEditPage" lazy="true">
+        <pm:header title="#{myBundle.EditUsuarioTitle}">
+            <h:form>
+                <p:commandButton styleClass="ui-btn-left ui-btn-inline" value="#{myBundle.Cancel}" icon="ui-icon-arrow-l" action="#{mobilePageController.navigateBackInHistory('pm:UsuarioListPage')}"/>
+            </h:form>
+        </pm:header>
+
+        <pm:content>
+
+            <h:form id="UsuarioEditForm">
+
+                <h:panelGroup id="display">
+                    <p:outputPanel rendered="#{usuarioController.selected != null}">
+
+                        <pm:field>
+                            <h:outputLabel value="#{myBundle.EditUsuarioLabel_document}" for="document" />
+                            <h:outputText id="document" value="#{usuarioController.selected.document}" />
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditUsuarioLabel_tipoDoc}" for="tipoDoc" />
+                            <p:inputText id="tipoDoc" value="#{usuarioController.selected.tipoDoc}" title="#{myBundle.EditUsuarioTitle_tipoDoc}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditUsuarioLabel_nombres}" for="nombres" />
+                            <p:inputText id="nombres" value="#{usuarioController.selected.nombres}" title="#{myBundle.EditUsuarioTitle_nombres}" size="45" maxlength="45"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditUsuarioLabel_apellidos}" for="apellidos" />
+                            <p:inputText id="apellidos" value="#{usuarioController.selected.apellidos}" title="#{myBundle.EditUsuarioTitle_apellidos}" size="45" maxlength="45"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditUsuarioLabel_correo}" for="correo" />
+                            <p:inputText id="correo" value="#{usuarioController.selected.correo}" title="#{myBundle.EditUsuarioTitle_correo}" size="45" maxlength="45"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditUsuarioLabel_contraseña}" for="contraseña" />
+                            <p:inputText id="contraseña" value="#{usuarioController.selected.contraseña}" title="#{myBundle.EditUsuarioTitle_contraseña}" size="45" maxlength="45"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditUsuarioLabel_telefono}" for="telefono" />
+                            <p:inputText id="telefono" value="#{usuarioController.selected.telefono}" title="#{myBundle.EditUsuarioTitle_telefono}" size="45" maxlength="45"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditUsuarioLabel_sexo}" for="sexo" />
+                            <p:inputText id="sexo" value="#{usuarioController.selected.sexo}" title="#{myBundle.EditUsuarioTitle_sexo}" size="45" maxlength="45"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditUsuarioLabel_barrio}" for="barrio" />
+                            <p:inputText id="barrio" value="#{usuarioController.selected.barrio}" title="#{myBundle.EditUsuarioTitle_barrio}" required="true" requiredMessage="#{myBundle.EditUsuarioRequiredMessage_barrio}" size="45" maxlength="45"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditUsuarioLabel_direccion}" for="direccion" />
+                            <p:inputText id="direccion" value="#{usuarioController.selected.direccion}" title="#{myBundle.EditUsuarioTitle_direccion}" size="45" maxlength="45"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditUsuarioLabel_fechaNacimiento}" for="fechaNacimiento" />
+                            <p:calendar id="fechaNacimiento" pattern="MM/dd/yyyy" value="#{usuarioController.selected.fechaNacimiento}" title="#{myBundle.EditUsuarioTitle_fechaNacimiento}"  showOn="button"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditUsuarioLabel_celular}" for="celular" />
+                            <p:inputText id="celular" value="#{usuarioController.selected.celular}" title="#{myBundle.EditUsuarioTitle_celular}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditUsuarioLabel_tipo}" for="tipo" />
+                            <p:inputText id="tipo" value="#{usuarioController.selected.tipo}" title="#{myBundle.EditUsuarioTitle_tipo}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditUsuarioLabel_generoidGenero}" for="generoidGenero" />
+                            <p:selectOneMenu id="generoidGenero" value="#{usuarioController.selected.generoidGenero}"  converter="generoConverter">
+                                <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{generoController.items}"
+                                               var="generoidGeneroItem"
+                                               itemValue="#{generoidGeneroItem}"
+                                               itemLabel="#{generoidGeneroItem.idGenero.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditUsuarioLabel_MUNICIPIOidMUNICIPIO}" for="MUNICIPIOidMUNICIPIO" />
+                            <p:selectOneMenu id="MUNICIPIOidMUNICIPIO" value="#{usuarioController.selected.MUNICIPIOidMUNICIPIO}" required="true" requiredMessage="#{myBundle.EditUsuarioRequiredMessage_MUNICIPIOidMUNICIPIO}" converter="municipioConverter">
+                                <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{municipioController.items}"
+                                               var="MUNICIPIOidMUNICIPIOItem"
+                                               itemValue="#{MUNICIPIOidMUNICIPIOItem}"
+                                               itemLabel="#{MUNICIPIOidMUNICIPIOItem.idMUNICIPIO.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                        </pm:field>
+                    </p:outputPanel>
+                    <p:commandButton actionListener="#{usuarioController.save}" value="#{myBundle.Save}" update="#{mobilePageController.updatableWidgets(component,'display,:UsuarioListPage:UsuarioListForm:datalist,:growl')}" action="#{mobilePageController.navigateWithHistory('pm:UsuarioListPage')}"/>
+
+                </h:panelGroup>
+
+            </h:form>
+
+        </pm:content>
+
+    </pm:page>
+
+</ui:composition>

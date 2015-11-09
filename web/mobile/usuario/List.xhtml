@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:pm="http://primefaces.org/mobile">
+
+    <pm:page id="UsuarioListPage">
+        <pm:header title="#{myBundle.ListUsuarioTitle}">
+            <h:form>
+                <p:commandButton id="backButton"   styleClass="ui-btn-left  ui-btn-inline" icon="ui-icon-arrow-l" value="#{myBundle.Back}" action="#{mobilePageController.navigateBackInHistory('/mobile/index')}"/>
+                <p:commandButton id="createButton" styleClass="ui-btn-right ui-btn-inline" icon="ui-icon-plus"    value="#{myBundle.Create}" update=":UsuarioCreatePage:UsuarioCreateForm" actionListener="#{usuarioController.prepareCreate}" action="#{mobilePageController.navigateWithHistory('pm:UsuarioCreatePage')}">
+                    <f:actionListener binding="#{currentPageListener}"/>
+                </p:commandButton>
+            </h:form>
+        </pm:header>
+
+        <pm:content>
+
+            <h:form id="UsuarioListForm">
+
+                <p:dataList id="datalist"
+                            paginator="true"
+                            rows="10"
+                            rowsPerPageTemplate="10,20,30,40,50"
+                            pt:data-inset="true"
+                            value="#{usuarioController.items}"
+                            var="item">
+
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListUsuarioTitle}"/>
+                    </f:facet>
+
+                    <p:commandLink update=":UsuarioEditPage:UsuarioEditForm" action="pm:UsuarioEditPage">
+                        <p>
+
+
+
+                            <h:outputText value="#{item.document}"/>
+
+
+
+                            ,&nbsp;
+                            <h:outputText value="#{item.tipoDoc}"/>
+
+
+
+                            ,&nbsp;
+                            <h:outputText value="#{item.nombres}"/>
+
+
+
+                            ,&nbsp;
+                            <h:outputText value="#{item.apellidos}"/>
+
+
+
+                            ,&nbsp;
+                            <h:outputText value="#{item.correo}"/>
+
+
+
+                            ,&nbsp;
+                            <h:outputText value="#{item.contraseña}"/>
+
+
+
+                            ,&nbsp;
+                            <h:outputText value="#{item.telefono}"/>
+
+
+
+                            ,&nbsp;
+                            <h:outputText value="#{item.sexo}"/>
+
+
+
+                            ,&nbsp;
+                            <h:outputText value="#{item.barrio}"/>
+
+
+
+                            ,&nbsp;
+                            <h:outputText value="#{item.direccion}"/>
+
+
+
+                            ,&nbsp;
+                            <h:outputText value="#{item.fechaNacimiento}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </h:outputText>
+
+
+
+                            ,&nbsp;
+                            <h:outputText value="#{item.celular}"/>
+
+
+
+                            ,&nbsp;
+                            <h:outputText value="#{item.tipo}"/>
+
+
+
+                            ,&nbsp;
+                            <h:outputText value="#{item.generoidGenero.idGenero}"/>
+
+
+
+                            ,&nbsp;
+                            <h:outputText value="#{item.MUNICIPIOidMUNICIPIO.idMUNICIPIO}"/>
+
+
+                        </p>
+                        <f:setPropertyActionListener value="#{item}" target="#{usuarioController.selected}" />
+                    </p:commandLink>
+
+                    <f:facet name="footer">
+                        <h:outputText value="#{myBundle.ListUsuarioTitle}"/>
+                    </f:facet>
+
+                </p:dataList>
+            </h:form>
+
+        </pm:content>
+
+    </pm:page>
+
+</ui:composition>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="CartelerapeliculaListForm">
+
+        <p:panel header="#{myBundle.ListCartelerapeliculaTitle}">
+            <p:contextMenu id="CartelerapeliculaDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{myBundle.Create}" onclick="document.getElementById('CartelerapeliculaListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{myBundle.View}" onclick="document.getElementById('CartelerapeliculaListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{myBundle.Edit}" onclick="document.getElementById('CartelerapeliculaListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{myBundle.Delete}" onclick="document.getElementById('CartelerapeliculaListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{myBundle.CartelerapeliculaMenuItem_cartelera}" icon="ui-icon-search"  actionListener="#{cartelerapeliculaController.prepareCartelera}" update=":CarteleraViewForm" oncomplete="PF('CarteleraViewDialog').show()" disabled="#{empty cartelerapeliculaController.selected.cartelera}"/>  
+                <p:menuitem value="#{myBundle.CartelerapeliculaMenuItem_pelicula}" icon="ui-icon-search"  actionListener="#{cartelerapeliculaController.preparePelicula}" update=":PeliculaViewForm" oncomplete="PF('PeliculaViewDialog').show()" disabled="#{empty cartelerapeliculaController.selected.pelicula}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{cartelerapeliculaController.items}"
+                         var="item"
+                         rowKey="#{item.cartelerapeliculaPK}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{cartelerapeliculaController.selected}">
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:CartelerapeliculaDataTableContextMenu" listener="#{cartelerapeliculaController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:CartelerapeliculaDataTableContextMenu" listener="#{cartelerapeliculaController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{cartelerapeliculaController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('CartelerapeliculaListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.cartelerapeliculaPK.idCARTELERAPELICULA}" filterBy="#{item.cartelerapeliculaPK.idCARTELERAPELICULA}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListCartelerapeliculaTitle_cartelerapeliculaPK_idCARTELERAPELICULA}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cartelerapeliculaPK.idCARTELERAPELICULA}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.cartelera.idCARTELERA}" filterBy="#{item.cartelera.idCARTELERA}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListCartelerapeliculaTitle_cartelera}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cartelera.idCARTELERA}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.pelicula.idPELICULA}" filterBy="#{item.pelicula.idPELICULA}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListCartelerapeliculaTitle_pelicula}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.pelicula.idPELICULA}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{cartelerapeliculaController.prepareCreate}" update=":CartelerapeliculaCreateForm" oncomplete="PF('CartelerapeliculaCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{myBundle.View}" update=":CartelerapeliculaViewForm" oncomplete="PF('CartelerapeliculaViewDialog').show()" disabled="#{empty cartelerapeliculaController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":CartelerapeliculaEditForm" oncomplete="PF('CartelerapeliculaEditDialog').show()" disabled="#{empty cartelerapeliculaController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{cartelerapeliculaController.delete}" update=":growl,datalist" disabled="#{empty cartelerapeliculaController.selected}">
+                <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

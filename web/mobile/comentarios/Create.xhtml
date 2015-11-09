@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pm="http://primefaces.org/mobile">
+
+    <pm:page id="ComentariosCreatePage" lazy="true">
+        <pm:header title="#{myBundle.CreateComentariosTitle}">
+            <h:form>
+                <p:commandButton styleClass="ui-btn-left ui-btn-inline" value="#{myBundle.Cancel}" icon="ui-icon-arrow-l" action="#{mobilePageController.navigateBackInHistory('pm:ComentariosListPage')}"/>
+            </h:form>
+        </pm:header>
+
+        <pm:content>
+
+            <h:form id="ComentariosCreateForm">
+
+                <h:panelGroup id="display" rendered="#{comentariosController.selected != null}">
+                    <p:outputPanel>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.CreateComentariosLabel_comentario}" for="comentario" />
+                            <p:inputTextarea rows="4" cols="30" id="comentario" value="#{comentariosController.selected.comentario}" title="#{myBundle.CreateComentariosTitle_comentario}" />
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.CreateComentariosLabel_autor}" for="autor" />
+                            <p:inputText id="autor" value="#{comentariosController.selected.autor}" title="#{myBundle.CreateComentariosTitle_autor}" size="75" maxlength="75"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.CreateComentariosLabel_fecha}" for="fecha" />
+                            <p:calendar id="fecha" pattern="MM/dd/yyyy" value="#{comentariosController.selected.fecha}" title="#{myBundle.CreateComentariosTitle_fecha}"  showOn="button"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.CreateComentariosLabel_pelicula}" for="pelicula" />
+                            <p:selectOneMenu id="pelicula" value="#{comentariosController.selected.pelicula}" required="true" requiredMessage="#{myBundle.CreateComentariosRequiredMessage_pelicula}" converter="peliculaConverter">
+                                <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{peliculaController.items}"
+                                               var="peliculaItem"
+                                               itemValue="#{peliculaItem}"
+                                               itemLabel="#{peliculaItem.idPELICULA.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                        </pm:field>
+                    </p:outputPanel>
+                    <p:commandButton actionListener="#{comentariosController.saveNew}" value="#{myBundle.Save}" update="display,:ComentariosListPage:ComentariosListForm:datalist,:growl" action="#{mobilePageController.navigateWithHistory('pm:ComentariosListPage')}"/>
+
+                </h:panelGroup>
+
+            </h:form>
+
+        </pm:content>
+
+    </pm:page>
+
+</ui:composition>

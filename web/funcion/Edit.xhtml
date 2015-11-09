@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="FuncionEditDlg" widgetVar="FuncionEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditFuncionTitle}" closeOnEscape="true">
+
+            <h:form id="FuncionEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{funcionController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditFuncionLabel_idFUNCION}" for="idFUNCION" />
+                        <h:outputText id="idFUNCION" value="#{funcionController.selected.idFUNCION}" />
+
+                        <p:outputLabel value="#{myBundle.EditFuncionLabel_fecha}" for="fecha" />
+                        <p:calendar id="fecha" pattern="MM/dd/yyyy" value="#{funcionController.selected.fecha}" title="#{myBundle.EditFuncionTitle_fecha}"  showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.EditFuncionLabel_PELICULAidPELICULA}" for="PELICULAidPELICULA" />
+                        <p:selectOneMenu id="PELICULAidPELICULA" value="#{funcionController.selected.PELICULAidPELICULA}" required="true" requiredMessage="#{myBundle.EditFuncionRequiredMessage_PELICULAidPELICULA}" converter="peliculaConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{peliculaController.items}"
+                                           var="PELICULAidPELICULAItem"
+                                           itemValue="#{PELICULAidPELICULAItem}"
+                                           itemLabel="#{PELICULAidPELICULAItem.idPELICULA.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.EditFuncionLabel_PROGRAMACIONidProgramacion}" for="PROGRAMACIONidProgramacion" />
+                        <p:selectOneMenu id="PROGRAMACIONidProgramacion" value="#{funcionController.selected.PROGRAMACIONidProgramacion}"  converter="programacionConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{programacionController.items}"
+                                           var="PROGRAMACIONidProgramacionItem"
+                                           itemValue="#{PROGRAMACIONidProgramacionItem}"
+                                           itemLabel="#{PROGRAMACIONidProgramacionItem.idProgramacion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{funcionController.save}" value="#{myBundle.Save}" update="display,:FuncionListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('FuncionEditDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="PF('FuncionEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

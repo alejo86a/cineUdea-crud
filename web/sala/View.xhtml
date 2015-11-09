@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="SalaViewDlg" widgetVar="SalaViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewSalaTitle}" closeOnEscape="true">
+
+            <h:form id="SalaViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{salaController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewSalaLabel_idSALA}"/>
+                        <h:outputText value="#{salaController.selected.idSALA}" title="#{myBundle.ViewSalaTitle_idSALA}"/>
+
+                        <h:outputText value="#{myBundle.ViewSalaLabel_codigo}"/>
+                        <h:outputText value="#{salaController.selected.codigo}" title="#{myBundle.ViewSalaTitle_codigo}"/>
+
+                        <h:outputText value="#{myBundle.ViewSalaLabel_numeroSala}"/>
+                        <h:outputText value="#{salaController.selected.numeroSala}" title="#{myBundle.ViewSalaTitle_numeroSala}"/>
+
+                        <h:outputText value="#{myBundle.ViewSalaLabel_SALAcol}"/>
+                        <h:outputText value="#{salaController.selected.SALAcol}" title="#{myBundle.ViewSalaTitle_SALAcol}"/>
+
+                        <h:outputText value="#{myBundle.ViewSalaLabel_CINEMAidCINEMA}"/>
+                        <h:outputText value="#{salaController.selected.CINEMAidCINEMA.idCINEMA}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('SalaViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

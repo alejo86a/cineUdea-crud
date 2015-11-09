@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="SillaCreateDlg" widgetVar="SillaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreateSillaTitle}" closeOnEscape="true">
+
+            <h:form id="SillaCreateForm">
+
+                <h:panelGroup id="display" rendered="#{sillaController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{myBundle.CreateSillaLabel_sillaPK_numero}" for="sillaPK_numero" />
+                        <p:inputText id="sillaPK_numero" value="#{sillaController.selected.sillaPK.numero}" title="#{myBundle.CreateSillaTitle_sillaPK_numero}" required="true" requiredMessage="#{myBundle.CreateSillaRequiredMessage_sillaPK_numero}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateSillaLabel_sillaPK_fila}" for="sillaPK_fila" />
+                        <p:inputText id="sillaPK_fila" value="#{sillaController.selected.sillaPK.fila}" title="#{myBundle.CreateSillaTitle_sillaPK_fila}" required="true" requiredMessage="#{myBundle.CreateSillaRequiredMessage_sillaPK_fila}" size="2" maxlength="2"/>
+
+                        <p:outputLabel value="#{myBundle.CreateSillaLabel_disponible}" for="disponible" />
+                        <p:selectBooleanCheckbox id="disponible" value="#{sillaController.selected.disponible}" />
+
+                        <p:outputLabel value="#{myBundle.CreateSillaLabel_sala}" for="sala" />
+                        <p:selectOneMenu id="sala" value="#{sillaController.selected.sala}" required="true" requiredMessage="#{myBundle.CreateSillaRequiredMessage_sala}" converter="salaConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{salaController.items}"
+                                           var="salaItem"
+                                           itemValue="#{salaItem}"
+                                           itemLabel="#{salaItem.idSALA.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.CreateSillaLabel_localidadIdlocalidad}" for="localidadIdlocalidad" />
+                        <p:selectOneMenu id="localidadIdlocalidad" value="#{sillaController.selected.localidadIdlocalidad}" required="true" requiredMessage="#{myBundle.CreateSillaRequiredMessage_localidadIdlocalidad}" converter="localidadConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{localidadController.items}"
+                                           var="localidadIdlocalidadItem"
+                                           itemValue="#{localidadIdlocalidadItem}"
+                                           itemLabel="#{localidadIdlocalidadItem.idlocalidad.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{sillaController.saveNew}" value="#{myBundle.Save}" update="display,:SillaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('SillaCreateDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="PF('SillaCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

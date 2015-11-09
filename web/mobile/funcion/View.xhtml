@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pm="http://primefaces.org/mobile">
+
+    <pm:page id="FuncionViewPage" lazy="true">
+        <pm:header title="#{myBundle.ViewFuncionTitle}">
+            <h:form>
+                <p:commandButton styleClass="ui-btn-left ui-btn-inline" value="#{myBundle.Cancel}" icon="ui-icon-arrow-l" action="#{mobilePageController.navigateBackInHistory('pm:FuncionListPage')}"/>
+            </h:form>
+        </pm:header>
+
+        <pm:content>
+
+            <h:form id="FuncionViewForm">
+
+                <h:panelGroup id="display">
+                    <p:outputPanel rendered="#{funcionController.selected != null}">
+
+                        <pm:field>
+                            <h:outputText value="#{myBundle.ViewFuncionLabel_idFUNCION}"/>
+                            <h:outputText value="#{funcionController.selected.idFUNCION}" title="#{myBundle.ViewFuncionTitle_idFUNCION}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{myBundle.ViewFuncionLabel_fecha}"/>
+                            <h:outputText value="#{funcionController.selected.fecha}" title="#{myBundle.ViewFuncionTitle_fecha}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </h:outputText>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{myBundle.ViewFuncionLabel_PELICULAidPELICULA}"/>
+                            <h:outputText value="#{funcionController.selected.PELICULAidPELICULA.idPELICULA}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{myBundle.ViewFuncionLabel_PROGRAMACIONidProgramacion}"/>
+                            <h:outputText value="#{funcionController.selected.PROGRAMACIONidProgramacion.idProgramacion}"/>
+                        </pm:field>
+                    </p:outputPanel>
+                </h:panelGroup>
+
+            </h:form>
+
+        </pm:content>
+
+    </pm:page>
+
+</ui:composition>

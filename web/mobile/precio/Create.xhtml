@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pm="http://primefaces.org/mobile">
+
+    <pm:page id="PrecioCreatePage" lazy="true">
+        <pm:header title="#{myBundle.CreatePrecioTitle}">
+            <h:form>
+                <p:commandButton styleClass="ui-btn-left ui-btn-inline" value="#{myBundle.Cancel}" icon="ui-icon-arrow-l" action="#{mobilePageController.navigateBackInHistory('pm:PrecioListPage')}"/>
+            </h:form>
+        </pm:header>
+
+        <pm:content>
+
+            <h:form id="PrecioCreateForm">
+
+                <h:panelGroup id="display" rendered="#{precioController.selected != null}">
+                    <p:outputPanel>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.CreatePrecioLabel_precioDinero}" for="precioDinero" />
+                            <p:inputText id="precioDinero" value="#{precioController.selected.precioDinero}" title="#{myBundle.CreatePrecioTitle_precioDinero}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.CreatePrecioLabel_precioPuntos}" for="precioPuntos" />
+                            <p:inputText id="precioPuntos" value="#{precioController.selected.precioPuntos}" title="#{myBundle.CreatePrecioTitle_precioPuntos}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.CreatePrecioLabel_FORMATOidFORMATO}" for="FORMATOidFORMATO" />
+                            <p:selectOneMenu id="FORMATOidFORMATO" value="#{precioController.selected.FORMATOidFORMATO}" required="true" requiredMessage="#{myBundle.CreatePrecioRequiredMessage_FORMATOidFORMATO}" converter="formatoConverter">
+                                <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{formatoController.items}"
+                                               var="FORMATOidFORMATOItem"
+                                               itemValue="#{FORMATOidFORMATOItem}"
+                                               itemLabel="#{FORMATOidFORMATOItem.idFORMATO.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.CreatePrecioLabel_localidadIdlocalidad}" for="localidadIdlocalidad" />
+                            <p:selectOneMenu id="localidadIdlocalidad" value="#{precioController.selected.localidadIdlocalidad}" required="true" requiredMessage="#{myBundle.CreatePrecioRequiredMessage_localidadIdlocalidad}" converter="localidadConverter">
+                                <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{localidadController.items}"
+                                               var="localidadIdlocalidadItem"
+                                               itemValue="#{localidadIdlocalidadItem}"
+                                               itemLabel="#{localidadIdlocalidadItem.idlocalidad.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                        </pm:field>
+                    </p:outputPanel>
+                    <p:commandButton actionListener="#{precioController.saveNew}" value="#{myBundle.Save}" update="display,:PrecioListPage:PrecioListForm:datalist,:growl" action="#{mobilePageController.navigateWithHistory('pm:PrecioListPage')}"/>
+
+                </h:panelGroup>
+
+            </h:form>
+
+        </pm:content>
+
+    </pm:page>
+
+</ui:composition>

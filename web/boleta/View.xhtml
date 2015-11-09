@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="BoletaViewDlg" widgetVar="BoletaViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewBoletaTitle}" closeOnEscape="true">
+
+            <h:form id="BoletaViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{boletaController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewBoletaLabel_idBOLETA}"/>
+                        <h:outputText value="#{boletaController.selected.idBOLETA}" title="#{myBundle.ViewBoletaTitle_idBOLETA}"/>
+
+                        <h:outputText value="#{myBundle.ViewBoletaLabel_qr}"/>
+                        <h:outputText value="#{boletaController.selected.qr}" title="#{myBundle.ViewBoletaTitle_qr}"/>
+
+                        <h:outputText value="#{myBundle.ViewBoletaLabel_reservada}"/>
+                        <h:selectBooleanCheckbox id="reservada" value="#{boletaController.selected.reservada}" title="#{myBundle.EditBoletaTitle_reservada}"  disabled="true"/>
+
+                        <h:outputText value="#{myBundle.ViewBoletaLabel_funcion}"/>
+                        <h:outputText value="#{boletaController.selected.funcion.idFUNCION}"/>
+
+                        <h:outputText value="#{myBundle.ViewBoletaLabel_precioidPrecio}"/>
+                        <h:outputText value="#{boletaController.selected.precioidPrecio.idPrecio}"/>
+
+                        <h:outputText value="#{myBundle.ViewBoletaLabel_reserva}"/>
+                        <h:outputText value="#{boletaController.selected.reserva.idReserva}"/>
+
+                        <h:outputText value="#{myBundle.ViewBoletaLabel_SILLANumero}"/>
+                        <h:outputText value="#{boletaController.selected.SILLANumero.sillaPK}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('BoletaViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

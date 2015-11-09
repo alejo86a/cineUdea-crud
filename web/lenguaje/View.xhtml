@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="LenguajeViewDlg" widgetVar="LenguajeViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewLenguajeTitle}" closeOnEscape="true">
+
+            <h:form id="LenguajeViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{lenguajeController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewLenguajeLabel_idLENGUAJE}"/>
+                        <h:outputText value="#{lenguajeController.selected.idLENGUAJE}" title="#{myBundle.ViewLenguajeTitle_idLENGUAJE}"/>
+
+                        <h:outputText value="#{myBundle.ViewLenguajeLabel_nombre}"/>
+                        <h:outputText value="#{lenguajeController.selected.nombre}" title="#{myBundle.ViewLenguajeTitle_nombre}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('LenguajeViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CarteleraCreateDlg" widgetVar="CarteleraCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreateCarteleraTitle}" closeOnEscape="true">
+
+            <h:form id="CarteleraCreateForm">
+
+                <h:panelGroup id="display" rendered="#{carteleraController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{myBundle.CreateCarteleraLabel_direccion}" for="direccion" />
+                        <p:inputText id="direccion" value="#{carteleraController.selected.direccion}" title="#{myBundle.CreateCarteleraTitle_direccion}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{myBundle.CreateCarteleraLabel_fechaInicio}" for="fechaInicio" />
+                        <p:calendar id="fechaInicio" pattern="MM/dd/yyyy" value="#{carteleraController.selected.fechaInicio}" title="#{myBundle.CreateCarteleraTitle_fechaInicio}"  showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.CreateCarteleraLabel_fechaFin}" for="fechaFin" />
+                        <p:inputText id="fechaFin" value="#{carteleraController.selected.fechaFin}" title="#{myBundle.CreateCarteleraTitle_fechaFin}" size="45" maxlength="45"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{carteleraController.saveNew}" value="#{myBundle.Save}" update="display,:CarteleraListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CarteleraCreateDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="PF('CarteleraCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

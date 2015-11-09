@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CineCreateDlg" widgetVar="CineCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreateCineTitle}" closeOnEscape="true">
+
+            <h:form id="CineCreateForm">
+
+                <h:panelGroup id="display" rendered="#{cineController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{myBundle.CreateCineLabel_nit}" for="nit" />
+                        <p:inputText id="nit" value="#{cineController.selected.nit}" title="#{myBundle.CreateCineTitle_nit}" required="true" requiredMessage="#{myBundle.CreateCineRequiredMessage_nit}" size="40" maxlength="40"/>
+
+                        <p:outputLabel value="#{myBundle.CreateCineLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{cineController.selected.nombre}" title="#{myBundle.CreateCineTitle_nombre}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{myBundle.CreateCineLabel_empresa}" for="empresa" />
+                        <p:inputText id="empresa" value="#{cineController.selected.empresa}" title="#{myBundle.CreateCineTitle_empresa}" size="45" maxlength="45"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{cineController.saveNew}" value="#{myBundle.Save}" update="display,:CineListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CineCreateDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="PF('CineCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

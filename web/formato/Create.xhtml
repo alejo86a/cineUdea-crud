@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="FormatoCreateDlg" widgetVar="FormatoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreateFormatoTitle}" closeOnEscape="true">
+
+            <h:form id="FormatoCreateForm">
+
+                <h:panelGroup id="display" rendered="#{formatoController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{myBundle.CreateFormatoLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{formatoController.selected.nombre}" title="#{myBundle.CreateFormatoTitle_nombre}" size="45" maxlength="45"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{formatoController.saveNew}" value="#{myBundle.Save}" update="display,:FormatoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('FormatoCreateDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="PF('FormatoCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

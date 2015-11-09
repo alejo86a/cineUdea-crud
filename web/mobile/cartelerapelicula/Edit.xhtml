@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pm="http://primefaces.org/mobile">
+
+    <pm:page id="CartelerapeliculaEditPage" lazy="true">
+        <pm:header title="#{myBundle.EditCartelerapeliculaTitle}">
+            <h:form>
+                <p:commandButton styleClass="ui-btn-left ui-btn-inline" value="#{myBundle.Cancel}" icon="ui-icon-arrow-l" action="#{mobilePageController.navigateBackInHistory('pm:CartelerapeliculaListPage')}"/>
+            </h:form>
+        </pm:header>
+
+        <pm:content>
+
+            <h:form id="CartelerapeliculaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:outputPanel rendered="#{cartelerapeliculaController.selected != null}">
+
+                        <pm:field>
+                            <h:outputLabel value="#{myBundle.EditCartelerapeliculaLabel_cartelerapeliculaPK_idCARTELERAPELICULA}" for="cartelerapeliculaPK_idCARTELERAPELICULA" />
+                            <h:outputText id="cartelerapeliculaPK_idCARTELERAPELICULA" value="#{cartelerapeliculaController.selected.cartelerapeliculaPK.idCARTELERAPELICULA}" />
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputLabel value="#{myBundle.EditCartelerapeliculaLabel_cartelera}" for="cartelera" />
+                            <h:outputText id="cartelera" value="#{cartelerapeliculaController.selected.cartelera}" />
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputLabel value="#{myBundle.EditCartelerapeliculaLabel_pelicula}" for="pelicula" />
+                            <h:outputText id="pelicula" value="#{cartelerapeliculaController.selected.pelicula}" />
+                        </pm:field>
+                    </p:outputPanel>
+                    <p:commandButton actionListener="#{cartelerapeliculaController.save}" value="#{myBundle.Save}" update="#{mobilePageController.updatableWidgets(component,'display,:CartelerapeliculaListPage:CartelerapeliculaListForm:datalist,:growl')}" action="#{mobilePageController.navigateWithHistory('pm:CartelerapeliculaListPage')}"/>
+
+                </h:panelGroup>
+
+            </h:form>
+
+        </pm:content>
+
+    </pm:page>
+
+</ui:composition>

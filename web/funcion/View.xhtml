@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="FuncionViewDlg" widgetVar="FuncionViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewFuncionTitle}" closeOnEscape="true">
+
+            <h:form id="FuncionViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{funcionController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewFuncionLabel_idFUNCION}"/>
+                        <h:outputText value="#{funcionController.selected.idFUNCION}" title="#{myBundle.ViewFuncionTitle_idFUNCION}"/>
+
+                        <h:outputText value="#{myBundle.ViewFuncionLabel_fecha}"/>
+                        <h:outputText value="#{funcionController.selected.fecha}" title="#{myBundle.ViewFuncionTitle_fecha}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewFuncionLabel_PELICULAidPELICULA}"/>
+                        <h:outputText value="#{funcionController.selected.PELICULAidPELICULA.idPELICULA}"/>
+
+                        <h:outputText value="#{myBundle.ViewFuncionLabel_PROGRAMACIONidProgramacion}"/>
+                        <h:outputText value="#{funcionController.selected.PROGRAMACIONidProgramacion.idProgramacion}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('FuncionViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

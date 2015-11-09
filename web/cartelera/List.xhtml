@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="CarteleraListForm">
+
+        <p:panel header="#{myBundle.ListCarteleraTitle}">
+            <p:contextMenu id="CarteleraDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{myBundle.Create}" onclick="document.getElementById('CarteleraListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{myBundle.View}" onclick="document.getElementById('CarteleraListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{myBundle.Edit}" onclick="document.getElementById('CarteleraListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{myBundle.Delete}" onclick="document.getElementById('CarteleraListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{myBundle.CarteleraMenuItem_cartelerapeliculaList}" icon="ui-icon-search"  action="#{carteleraController.navigateCartelerapeliculaList}" disabled="#{empty carteleraController.selected.cartelerapeliculaList}" ajax="false"/>  
+                <p:menuitem value="#{myBundle.CarteleraMenuItem_cinemaList}" icon="ui-icon-search"  action="#{carteleraController.navigateCinemaList}" disabled="#{empty carteleraController.selected.cinemaList}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{carteleraController.items}"
+                         var="item"
+                         rowKey="#{item.idCARTELERA}"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{carteleraController.selected}">
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:CarteleraDataTableContextMenu"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:CarteleraDataTableContextMenu"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('CarteleraListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idCARTELERA}" filterBy="#{item.idCARTELERA}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListCarteleraTitle_idCARTELERA}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idCARTELERA}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.direccion}" filterBy="#{item.direccion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListCarteleraTitle_direccion}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.direccion}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.fechaInicio}" filterBy="#{item.fechaInicio}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListCarteleraTitle_fechaInicio}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaInicio}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.fechaFin}" filterBy="#{item.fechaFin}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListCarteleraTitle_fechaFin}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaFin}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{carteleraController.prepareCreate}" update=":CarteleraCreateForm" oncomplete="PF('CarteleraCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{myBundle.View}" update=":CarteleraViewForm" oncomplete="PF('CarteleraViewDialog').show()" disabled="#{empty carteleraController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":CarteleraEditForm" oncomplete="PF('CarteleraEditDialog').show()" disabled="#{empty carteleraController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{carteleraController.delete}" update=":growl,datalist" disabled="#{empty carteleraController.selected}">
+                <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

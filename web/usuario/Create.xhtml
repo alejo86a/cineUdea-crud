@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="UsuarioCreateDlg" widgetVar="UsuarioCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreateUsuarioTitle}" closeOnEscape="true">
+
+            <h:form id="UsuarioCreateForm">
+
+                <h:panelGroup id="display" rendered="#{usuarioController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{myBundle.CreateUsuarioLabel_document}" for="document" />
+                        <p:inputText id="document" value="#{usuarioController.selected.document}" title="#{myBundle.CreateUsuarioTitle_document}" required="true" requiredMessage="#{myBundle.CreateUsuarioRequiredMessage_document}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateUsuarioLabel_tipoDoc}" for="tipoDoc" />
+                        <p:inputText id="tipoDoc" value="#{usuarioController.selected.tipoDoc}" title="#{myBundle.CreateUsuarioTitle_tipoDoc}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateUsuarioLabel_nombres}" for="nombres" />
+                        <p:inputText id="nombres" value="#{usuarioController.selected.nombres}" title="#{myBundle.CreateUsuarioTitle_nombres}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{myBundle.CreateUsuarioLabel_apellidos}" for="apellidos" />
+                        <p:inputText id="apellidos" value="#{usuarioController.selected.apellidos}" title="#{myBundle.CreateUsuarioTitle_apellidos}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{myBundle.CreateUsuarioLabel_correo}" for="correo" />
+                        <p:inputText id="correo" value="#{usuarioController.selected.correo}" title="#{myBundle.CreateUsuarioTitle_correo}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{myBundle.CreateUsuarioLabel_contraseña}" for="contraseña" />
+                        <p:inputText id="contraseña" value="#{usuarioController.selected.contraseña}" title="#{myBundle.CreateUsuarioTitle_contraseña}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{myBundle.CreateUsuarioLabel_telefono}" for="telefono" />
+                        <p:inputText id="telefono" value="#{usuarioController.selected.telefono}" title="#{myBundle.CreateUsuarioTitle_telefono}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{myBundle.CreateUsuarioLabel_sexo}" for="sexo" />
+                        <p:inputText id="sexo" value="#{usuarioController.selected.sexo}" title="#{myBundle.CreateUsuarioTitle_sexo}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{myBundle.CreateUsuarioLabel_barrio}" for="barrio" />
+                        <p:inputText id="barrio" value="#{usuarioController.selected.barrio}" title="#{myBundle.CreateUsuarioTitle_barrio}" required="true" requiredMessage="#{myBundle.CreateUsuarioRequiredMessage_barrio}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{myBundle.CreateUsuarioLabel_direccion}" for="direccion" />
+                        <p:inputText id="direccion" value="#{usuarioController.selected.direccion}" title="#{myBundle.CreateUsuarioTitle_direccion}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{myBundle.CreateUsuarioLabel_fechaNacimiento}" for="fechaNacimiento" />
+                        <p:calendar id="fechaNacimiento" pattern="MM/dd/yyyy" value="#{usuarioController.selected.fechaNacimiento}" title="#{myBundle.CreateUsuarioTitle_fechaNacimiento}"  showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.CreateUsuarioLabel_celular}" for="celular" />
+                        <p:inputText id="celular" value="#{usuarioController.selected.celular}" title="#{myBundle.CreateUsuarioTitle_celular}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateUsuarioLabel_tipo}" for="tipo" />
+                        <p:inputText id="tipo" value="#{usuarioController.selected.tipo}" title="#{myBundle.CreateUsuarioTitle_tipo}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateUsuarioLabel_generoidGenero}" for="generoidGenero" />
+                        <p:selectOneMenu id="generoidGenero" value="#{usuarioController.selected.generoidGenero}"  converter="generoConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{generoController.items}"
+                                           var="generoidGeneroItem"
+                                           itemValue="#{generoidGeneroItem}"
+                                           itemLabel="#{generoidGeneroItem.idGenero.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.CreateUsuarioLabel_MUNICIPIOidMUNICIPIO}" for="MUNICIPIOidMUNICIPIO" />
+                        <p:selectOneMenu id="MUNICIPIOidMUNICIPIO" value="#{usuarioController.selected.MUNICIPIOidMUNICIPIO}" required="true" requiredMessage="#{myBundle.CreateUsuarioRequiredMessage_MUNICIPIOidMUNICIPIO}" converter="municipioConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{municipioController.items}"
+                                           var="MUNICIPIOidMUNICIPIOItem"
+                                           itemValue="#{MUNICIPIOidMUNICIPIOItem}"
+                                           itemLabel="#{MUNICIPIOidMUNICIPIOItem.idMUNICIPIO.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{usuarioController.saveNew}" value="#{myBundle.Save}" update="display,:UsuarioListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('UsuarioCreateDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="PF('UsuarioCreateDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

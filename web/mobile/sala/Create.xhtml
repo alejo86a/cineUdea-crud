@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pm="http://primefaces.org/mobile">
+
+    <pm:page id="SalaCreatePage" lazy="true">
+        <pm:header title="#{myBundle.CreateSalaTitle}">
+            <h:form>
+                <p:commandButton styleClass="ui-btn-left ui-btn-inline" value="#{myBundle.Cancel}" icon="ui-icon-arrow-l" action="#{mobilePageController.navigateBackInHistory('pm:SalaListPage')}"/>
+            </h:form>
+        </pm:header>
+
+        <pm:content>
+
+            <h:form id="SalaCreateForm">
+
+                <h:panelGroup id="display" rendered="#{salaController.selected != null}">
+                    <p:outputPanel>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.CreateSalaLabel_codigo}" for="codigo" />
+                            <p:inputText id="codigo" value="#{salaController.selected.codigo}" title="#{myBundle.CreateSalaTitle_codigo}" size="45" maxlength="45"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.CreateSalaLabel_numeroSala}" for="numeroSala" />
+                            <p:inputText id="numeroSala" value="#{salaController.selected.numeroSala}" title="#{myBundle.CreateSalaTitle_numeroSala}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.CreateSalaLabel_SALAcol}" for="SALAcol" />
+                            <p:inputText id="SALAcol" value="#{salaController.selected.SALAcol}" title="#{myBundle.CreateSalaTitle_SALAcol}" size="45" maxlength="45"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.CreateSalaLabel_CINEMAidCINEMA}" for="CINEMAidCINEMA" />
+                            <p:selectOneMenu id="CINEMAidCINEMA" value="#{salaController.selected.CINEMAidCINEMA}" required="true" requiredMessage="#{myBundle.CreateSalaRequiredMessage_CINEMAidCINEMA}" converter="cinemaConverter">
+                                <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{cinemaController.items}"
+                                               var="CINEMAidCINEMAItem"
+                                               itemValue="#{CINEMAidCINEMAItem}"
+                                               itemLabel="#{CINEMAidCINEMAItem.idCINEMA.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                        </pm:field>
+                    </p:outputPanel>
+                    <p:commandButton actionListener="#{salaController.saveNew}" value="#{myBundle.Save}" update="display,:SalaListPage:SalaListForm:datalist,:growl" action="#{mobilePageController.navigateWithHistory('pm:SalaListPage')}"/>
+
+                </h:panelGroup>
+
+            </h:form>
+
+        </pm:content>
+
+    </pm:page>
+
+</ui:composition>

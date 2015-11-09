@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pm="http://primefaces.org/mobile">
+
+    <pm:page id="CinemaViewPage" lazy="true">
+        <pm:header title="#{myBundle.ViewCinemaTitle}">
+            <h:form>
+                <p:commandButton styleClass="ui-btn-left ui-btn-inline" value="#{myBundle.Cancel}" icon="ui-icon-arrow-l" action="#{mobilePageController.navigateBackInHistory('pm:CinemaListPage')}"/>
+            </h:form>
+        </pm:header>
+
+        <pm:content>
+
+            <h:form id="CinemaViewForm">
+
+                <h:panelGroup id="display">
+                    <p:outputPanel rendered="#{cinemaController.selected != null}">
+
+                        <pm:field>
+                            <h:outputText value="#{myBundle.ViewCinemaLabel_idCINEMA}"/>
+                            <h:outputText value="#{cinemaController.selected.idCINEMA}" title="#{myBundle.ViewCinemaTitle_idCINEMA}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{myBundle.ViewCinemaLabel_direccion}"/>
+                            <h:outputText value="#{cinemaController.selected.direccion}" title="#{myBundle.ViewCinemaTitle_direccion}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{myBundle.ViewCinemaLabel_nombre}"/>
+                            <h:outputText value="#{cinemaController.selected.nombre}" title="#{myBundle.ViewCinemaTitle_nombre}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{myBundle.ViewCinemaLabel_ciudad}"/>
+                            <h:outputText value="#{cinemaController.selected.ciudad}" title="#{myBundle.ViewCinemaTitle_ciudad}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{myBundle.ViewCinemaLabel_pais}"/>
+                            <h:outputText value="#{cinemaController.selected.pais}" title="#{myBundle.ViewCinemaTitle_pais}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{myBundle.ViewCinemaLabel_telefono}"/>
+                            <h:outputText value="#{cinemaController.selected.telefono}" title="#{myBundle.ViewCinemaTitle_telefono}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{myBundle.ViewCinemaLabel_cartelera}"/>
+                            <h:outputText value="#{cinemaController.selected.cartelera.idCARTELERA}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{myBundle.ViewCinemaLabel_cineNit}"/>
+                            <h:outputText value="#{cinemaController.selected.cineNit.nit}"/>
+                        </pm:field>
+                    </p:outputPanel>
+                </h:panelGroup>
+
+            </h:form>
+
+        </pm:content>
+
+    </pm:page>
+
+</ui:composition>

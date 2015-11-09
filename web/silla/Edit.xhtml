@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="SillaEditDlg" widgetVar="SillaEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditSillaTitle}" closeOnEscape="true">
+
+            <h:form id="SillaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{sillaController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditSillaLabel_sillaPK_numero}" for="sillaPK_numero" />
+                        <h:outputText id="sillaPK_numero" value="#{sillaController.selected.sillaPK.numero}" />
+
+
+                        <h:outputLabel value="#{myBundle.EditSillaLabel_sillaPK_fila}" for="sillaPK_fila" />
+                        <h:outputText id="sillaPK_fila" value="#{sillaController.selected.sillaPK.fila}" />
+
+                        <p:outputLabel value="#{myBundle.EditSillaLabel_disponible}" for="disponible" />
+                        <p:selectBooleanCheckbox id="disponible" value="#{sillaController.selected.disponible}" />
+
+
+                        <h:outputLabel value="#{myBundle.EditSillaLabel_sala}" for="sala" />
+                        <h:outputText id="sala" value="#{sillaController.selected.sala}" />
+
+                        <p:outputLabel value="#{myBundle.EditSillaLabel_localidadIdlocalidad}" for="localidadIdlocalidad" />
+                        <p:selectOneMenu id="localidadIdlocalidad" value="#{sillaController.selected.localidadIdlocalidad}" required="true" requiredMessage="#{myBundle.EditSillaRequiredMessage_localidadIdlocalidad}" converter="localidadConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{localidadController.items}"
+                                           var="localidadIdlocalidadItem"
+                                           itemValue="#{localidadIdlocalidadItem}"
+                                           itemLabel="#{localidadIdlocalidadItem.idlocalidad.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{sillaController.save}" value="#{myBundle.Save}" update="display,:SillaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('SillaEditDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" onclick="PF('SillaEditDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

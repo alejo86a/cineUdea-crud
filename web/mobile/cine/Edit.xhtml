@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pm="http://primefaces.org/mobile">
+
+    <pm:page id="CineEditPage" lazy="true">
+        <pm:header title="#{myBundle.EditCineTitle}">
+            <h:form>
+                <p:commandButton styleClass="ui-btn-left ui-btn-inline" value="#{myBundle.Cancel}" icon="ui-icon-arrow-l" action="#{mobilePageController.navigateBackInHistory('pm:CineListPage')}"/>
+            </h:form>
+        </pm:header>
+
+        <pm:content>
+
+            <h:form id="CineEditForm">
+
+                <h:panelGroup id="display">
+                    <p:outputPanel rendered="#{cineController.selected != null}">
+
+                        <pm:field>
+                            <h:outputLabel value="#{myBundle.EditCineLabel_nit}" for="nit" />
+                            <h:outputText id="nit" value="#{cineController.selected.nit}" />
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditCineLabel_nombre}" for="nombre" />
+                            <p:inputText id="nombre" value="#{cineController.selected.nombre}" title="#{myBundle.EditCineTitle_nombre}" size="45" maxlength="45"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditCineLabel_empresa}" for="empresa" />
+                            <p:inputText id="empresa" value="#{cineController.selected.empresa}" title="#{myBundle.EditCineTitle_empresa}" size="45" maxlength="45"/>
+                        </pm:field>
+                    </p:outputPanel>
+                    <p:commandButton actionListener="#{cineController.save}" value="#{myBundle.Save}" update="#{mobilePageController.updatableWidgets(component,'display,:CineListPage:CineListForm:datalist,:growl')}" action="#{mobilePageController.navigateWithHistory('pm:CineListPage')}"/>
+
+                </h:panelGroup>
+
+            </h:form>
+
+        </pm:content>
+
+    </pm:page>
+
+</ui:composition>

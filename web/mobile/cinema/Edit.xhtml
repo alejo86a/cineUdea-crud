@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pm="http://primefaces.org/mobile">
+
+    <pm:page id="CinemaEditPage" lazy="true">
+        <pm:header title="#{myBundle.EditCinemaTitle}">
+            <h:form>
+                <p:commandButton styleClass="ui-btn-left ui-btn-inline" value="#{myBundle.Cancel}" icon="ui-icon-arrow-l" action="#{mobilePageController.navigateBackInHistory('pm:CinemaListPage')}"/>
+            </h:form>
+        </pm:header>
+
+        <pm:content>
+
+            <h:form id="CinemaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:outputPanel rendered="#{cinemaController.selected != null}">
+
+                        <pm:field>
+                            <h:outputLabel value="#{myBundle.EditCinemaLabel_idCINEMA}" for="idCINEMA" />
+                            <h:outputText id="idCINEMA" value="#{cinemaController.selected.idCINEMA}" />
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditCinemaLabel_direccion}" for="direccion" />
+                            <p:inputText id="direccion" value="#{cinemaController.selected.direccion}" title="#{myBundle.EditCinemaTitle_direccion}" size="50" maxlength="50"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditCinemaLabel_nombre}" for="nombre" />
+                            <p:inputText id="nombre" value="#{cinemaController.selected.nombre}" title="#{myBundle.EditCinemaTitle_nombre}" size="45" maxlength="45"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditCinemaLabel_ciudad}" for="ciudad" />
+                            <p:inputText id="ciudad" value="#{cinemaController.selected.ciudad}" title="#{myBundle.EditCinemaTitle_ciudad}" size="45" maxlength="45"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditCinemaLabel_pais}" for="pais" />
+                            <p:inputText id="pais" value="#{cinemaController.selected.pais}" title="#{myBundle.EditCinemaTitle_pais}" size="45" maxlength="45"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditCinemaLabel_telefono}" for="telefono" />
+                            <p:inputText id="telefono" value="#{cinemaController.selected.telefono}" title="#{myBundle.EditCinemaTitle_telefono}" size="45" maxlength="45"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditCinemaLabel_cartelera}" for="cartelera" />
+                            <p:selectOneMenu id="cartelera" value="#{cinemaController.selected.cartelera}"  converter="carteleraConverter">
+                                <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{carteleraController.items}"
+                                               var="carteleraItem"
+                                               itemValue="#{carteleraItem}"
+                                               itemLabel="#{carteleraItem.idCARTELERA.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditCinemaLabel_cineNit}" for="cineNit" />
+                            <p:selectOneMenu id="cineNit" value="#{cinemaController.selected.cineNit}" required="true" requiredMessage="#{myBundle.EditCinemaRequiredMessage_cineNit}" converter="cineConverter">
+                                <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{cineController.items}"
+                                               var="cineNitItem"
+                                               itemValue="#{cineNitItem}"
+                                               itemLabel="#{cineNitItem.nit.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                        </pm:field>
+                    </p:outputPanel>
+                    <p:commandButton actionListener="#{cinemaController.save}" value="#{myBundle.Save}" update="#{mobilePageController.updatableWidgets(component,'display,:CinemaListPage:CinemaListForm:datalist,:growl')}" action="#{mobilePageController.navigateWithHistory('pm:CinemaListPage')}"/>
+
+                </h:panelGroup>
+
+            </h:form>
+
+        </pm:content>
+
+    </pm:page>
+
+</ui:composition>
